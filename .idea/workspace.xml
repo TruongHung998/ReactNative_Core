@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91a2782b-bd4e-47df-9b58-e59d2b15f70a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/view/widget/tab_bar_scroll.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/context/alertOverlay.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/context/alertOverlay.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/context/appContext.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/context/appContext.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screen/home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screen/home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/screen/home2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screen/home2.tsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -91,7 +90,7 @@
       <workItem from="1630998708522" duration="144000" />
       <workItem from="1630999195300" duration="1950000" />
       <workItem from="1631016914910" duration="3813000" />
-      <workItem from="1631021434374" duration="10801000" />
+      <workItem from="1631021434374" duration="11366000" />
     </task>
     <servers />
   </component>
