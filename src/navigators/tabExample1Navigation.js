@@ -4,6 +4,7 @@ import {ROUTE_EXAMPLE1, ROUTE_HOME} from "./routeName";
 
 import {LAYOUT} from "../constants/globalStyles";
 import HomePage from "../view/screen/home";
+import HomePage2 from "../view/screen/home2";
 
 export default memo(() => {
     return (
@@ -17,7 +18,7 @@ export default memo(() => {
         >
             <StackNavigator.Screen
                 name={ROUTE_EXAMPLE1}
-                component={HomePage}
+                component={HomePage2}
                 options={{headerShown: false}}
             />
         </StackNavigator.Navigator>
