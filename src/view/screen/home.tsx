@@ -11,12 +11,12 @@ import {LAYOUT} from "../../constants/globalStyles";
 import LinearGradient from 'react-native-linear-gradient';
 import TouchOpacityButton from "../widget/TouchOpacityButton";
 import LoadingPlaceholder from "../widget/loadingPlaceholder";
-import {useShowAlert, useShowModal} from "../../context/appContext";
+import {useSetLoading, useShowAlert, useShowModal} from "../../context/appContext";
 
 const HomePage = memo(() => {
     const showModal = useShowModal()
     const useAlert = useShowAlert()
-
+    const setLoading = useSetLoading()
     const _onPressModal = useCallback(() => {
         LayoutAnimation.easeInEaseOut()
         showModal({
@@ -28,9 +28,28 @@ const HomePage = memo(() => {
     }, [])
 
     const _onPressAlert = useCallback(() => {
-
-
+        const _dismiss = useAlert({
+            visible: true,
+            animationType: 'fade',
+            contentTitle: 'SUCCESS',
+            message: 'Alert Success',
+            buttons: [{
+                label: 'Back',
+                active: true,
+                onPress: () => {
+                    _dismiss()
+                }
+            }],
+        })
     }, [])
+
+    const _onLoading = useCallback(() => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 2000)
+    }, [])
+
     return <SafeAreaView style={styles.container}>
         <BaseHeaderHome backgroundColor={'white'} title={'React Native Base'}/>
 
@@ -63,7 +82,7 @@ const HomePage = memo(() => {
                     <Text style={{textAlign: 'center', color: 'white'}}>Test Alert</Text>
                 </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={_onLoading}>
                 <View style={{
                     height: 50,
                     width: 200,
@@ -72,7 +91,7 @@ const HomePage = memo(() => {
                     justifyContent: 'center',
                     marginVertical: 10, marginLeft: 15
                 }}>
-                    <Text style={{textAlign: 'center', color: 'white'}}>Test Alert</Text>
+                    <Text style={{textAlign: 'center', color: 'white'}}>Test Loading</Text>
                 </View>
             </TouchableOpacity>
             <TextInputAwareKeyboard

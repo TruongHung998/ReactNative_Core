@@ -62,7 +62,17 @@ const App = memo(() => {
             alertRef?.current?.onOpen()
             setOptionAlert(option)
         }
+        return () => {
+            console.log('handle second call')
+        }
     }, [optionAlert, setOptionAlert, alertRef]);
+
+    const _dismissAlert = useCallback(() => {
+        if (alertRef?.current) {
+            LayoutAnimation.easeInEaseOut();
+            alertRef?.current?.onDismiss()
+        }
+    }, [alertRef])
 
     const _showModal = useCallback((option: ModalOverlayProps) => {
         if (sheetRef.current) {
@@ -85,6 +95,7 @@ const App = memo(() => {
             showAlert: _showAlert,
             showModal: _showModal,
             dismissModal: _dismissModal,
+            dismissAlert: _dismissAlert,
         }
     }, [_onSetLoading]);
 

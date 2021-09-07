@@ -1,9 +1,11 @@
 // @ts-ignore
-import React, {forwardRef, Ref, useEffect, useImperativeHandle, useMemo, useState} from "react";
-import {Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React, {forwardRef, Ref, useCallback, useEffect, useImperativeHandle, useMemo, useState} from "react";
+import {Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
 import _const from "../constants/common";
 import {NAVIGATION_BAR_PADDING_H, SafeAreaBottom} from "../constants/dimension";
 import {LAYOUT, FONT} from "../constants/globalStyles"
+import TouchOpacityButton from "../view/widget/TouchOpacityButton";
+import Animated from "react-native-reanimated";
 
 export interface AlertOverlayProps {
     visible?: boolean,
@@ -11,18 +13,23 @@ export interface AlertOverlayProps {
     contentTitle?: string,
     buttons?: any[],
     message?: string,
+    dismissTouchOutSide?: boolean
+    contentView?: Element | null
 }
 
 export type AlertOverlayRef = {
     onOpen: () => void
 }
-const AlertOverlay = forwardRef(({visible = false, animationType = 'fade', contentTitle, message = '', buttons = []}: AlertOverlayProps, ref: Ref<AlertOverlayRef>): JSX.Element => {
+const AlertOverlay = forwardRef(({visible = false, animationType = 'fade', contentTitle, message = '', buttons = [], dismissTouchOutSide = false, contentView = null}: AlertOverlayProps, ref: Ref<AlertOverlayRef>): JSX.Element => {
     const [isShow, setIsShow] = useState(false)
     const [animation, setAnimation] = useState('fade')
     useImperativeHandle(ref, () => {
         return {
             onOpen: () => {
                 setIsShow(true)
+            },
+            onDismiss: () => {
+                setIsShow(false)
             }
         }
     })
@@ -54,35 +61,44 @@ const AlertOverlay = forwardRef(({visible = false, animationType = 'fade', conte
             })
         }
     }, [buttons])
+    const _onDismiss = useCallback(() => {
+        if (dismissTouchOutSide) setIsShow(false)
+    }, [dismissTouchOutSide])
     return (
-        <View style={styles.container_modal}>
+        <TouchableWithoutFeedback>
             <Modal
                 // @ts-ignore
                 animationType={animation}
                 transparent={true}
                 visible={isShow}
             >
-                <View style={styles.modal_position}>
-                    <View style={styles.modal_view}>
-                        <Text style={{
-                            fontSize: 20
-                        }}>{contentTitle}</Text>
-                        <Text style={{
-                            fontSize: 16,
-                            marginTop: 10
-                        }}>{message}</Text>
-                        <View style={{
-                            flexDirection: buttons && buttons.length > 1 ? 'row' : 'column',
-                            width: _const.WIDTH_SCREEN * 0.7,
-                            marginTop: 10,
-                            alignSelf: 'center',
-                        }}>
-                            {renderButton}
+                <TouchableWithoutFeedback onPress={_onDismiss}>
+                    <View style={styles.modal_position}>
+                        <View style={styles.modal_view}>
+                            {contentView ? contentView : <View style={{
+                                alignItems: "center",
+                            }}>
+                                <Text style={{
+                                    fontSize: 20
+                                }}>{contentTitle}</Text>
+                                <Text style={{
+                                    fontSize: 16,
+                                    marginTop: 10
+                                }}>{message}</Text>
+                                <View style={{
+                                    flexDirection: buttons && buttons.length > 1 ? 'row' : 'column',
+                                    width: _const.WIDTH_SCREEN * 0.7,
+                                    marginTop: 10,
+                                    alignSelf: 'center',
+                                }}>
+                                    {renderButton}
+                                </View>
+                            </View>}
                         </View>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
             </Modal>
-        </View>
+        </TouchableWithoutFeedback>
     )
 })
 const styles = StyleSheet.create({
@@ -125,7 +141,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         ...LAYOUT.box_shadow,
         marginTop: 20
-    }
+    },
+    fillFull: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        justifyContent: "center",
+        alignItems: "center",
+    },
 })
 
 export default AlertOverlay
