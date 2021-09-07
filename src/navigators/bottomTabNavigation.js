@@ -1,17 +1,10 @@
 import React, {memo} from "react";
 import {StackNavigator, TabNavigator} from "./index";
-import {RoundTopCornerTabBar} from '../view/elements/bottom_tab_bar';
-import {
-    NAVIGATION_TAB_EXAMPLE1,
-    NAVIGATION_TAB_EXAMPLE2,
-    NAVIGATION_TAB_EXAMPLE3,
-    NAVIGATION_TAB_HOME
-} from "./routeName";
-import TabHomeNavigation from "./tab_home_navigation";
-import TabDietNavigation from "./tab_diet_navigation";
-import TabRecipeNavigation from "./tab_recipe_navigation";
-
-import TabForYouNavigation from "./for_you_navigation";
+import {RoundTopCornerTabBar} from '../view/elements/bottomTabBar';
+import {NAVIGATION_TAB_EXAMPLE1, NAVIGATION_TAB_EXAMPLE2, NAVIGATION_TAB_HOME} from "./routeName";
+import TabHomeNavigation from "./tabHomeNavigation";
+import TabExample1Navigation from "./tabExample1Navigation";
+import TabExample2Navigation from "./tabExample2Navigation";
 
 import {SCREENS} from "../constants/screen";
 
@@ -35,7 +28,7 @@ const BottomTabNavigation = memo(() => {
             />
             <StackNavigator.Screen
                 name={NAVIGATION_TAB_EXAMPLE1}
-                component={TabDietNavigation}
+                component={TabExample1Navigation}
                 options={({route}) => {
                     return {
                         tabBarVisible: getTabBarVisibility(route),
@@ -48,26 +41,13 @@ const BottomTabNavigation = memo(() => {
 
             <StackNavigator.Screen
                 name={NAVIGATION_TAB_EXAMPLE2}
-                component={TabForYouNavigation}
+                component={TabExample2Navigation}
                 options={({route}) => {
                     return {
                         tabBarVisible: getTabBarVisibility(route),
                         tabBarLabel: SCREENS.Example2.description,
                         iconName: SCREENS.Example2.iconName,
                         activeColor: SCREENS.Example2.activeColor
-                    }
-                }}
-            />
-
-            <StackNavigator.Screen
-                name={NAVIGATION_TAB_EXAMPLE3}
-                component={TabRecipeNavigation}
-                options={({route}) => {
-                    return {
-                        tabBarVisible: getTabBarVisibility(route),
-                        tabBarLabel: SCREENS.Example3.description,
-                        iconName: SCREENS.Example3.iconName,
-                        activeColor: SCREENS.Example3.activeColor
                     }
                 }}
             />

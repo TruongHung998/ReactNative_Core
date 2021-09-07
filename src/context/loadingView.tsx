@@ -1,7 +1,7 @@
 import React, {memo, useEffect, useMemo, useState} from 'react'
 import {Animated, Easing, StyleSheet, View} from 'react-native'
 
-const ICON_LOADING = require('../view/assets/images/icon/loading.png')
+const ICON_LOADING = require('../assets/images/icon/loading.png')
 
 interface LoadingViewProps {
     sizeOverLoading: number,

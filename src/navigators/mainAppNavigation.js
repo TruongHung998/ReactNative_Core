@@ -2,7 +2,7 @@ import React, {memo} from "react";
 import {DrawerNavigator, StackNavigator} from "./index";
 import {NAVIGATION_BOTTOM_TAB} from "./routeName";
 import BottomTabNavigation from "./bottomTabNavigation";
-import DrawerTab from "../view/elements/drawer_tab";
+import DrawerTab from "../view/elements/drawerTab";
 
 
 const MainAppNavigation = memo(() => {
