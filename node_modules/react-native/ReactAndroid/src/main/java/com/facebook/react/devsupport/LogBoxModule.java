@@ -93,7 +93,7 @@ public class LogBoxModule extends NativeLogBoxSpec {
   }
 
   @Override
-  public void invalidate() {
+  public void onCatalystInstanceDestroy() {
     UiThreadUtil.runOnUiThread(
         new Runnable() {
           @Override

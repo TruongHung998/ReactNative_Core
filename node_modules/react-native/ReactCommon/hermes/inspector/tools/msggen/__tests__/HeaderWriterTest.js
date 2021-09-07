@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {expectCodeIsEqual, FakeWritable} from '../src/TestHelpers';
+'use strict';
+
+import { expectCodeIsEqual, FakeWritable } from '../src/TestHelpers';
 import {
   emitNotificationDecl,
   emitRequestDecl,

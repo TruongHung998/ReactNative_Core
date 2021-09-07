@@ -18,12 +18,6 @@
 
 @end
 
-static NSURLSessionConfigurationProvider urlSessionConfigurationProvider;
-
-void RCTSetCustomNSURLSessionConfigurationProvider(NSURLSessionConfigurationProvider provider) {
-  urlSessionConfigurationProvider = provider;
-}
-
 @implementation RCTHTTPRequestHandler
 {
   NSMapTable *_delegates;
@@ -31,7 +25,7 @@ void RCTSetCustomNSURLSessionConfigurationProvider(NSURLSessionConfigurationProv
   std::mutex _mutex;
 }
 
-@synthesize moduleRegistry = _moduleRegistry;
+@synthesize bridge = _bridge;
 @synthesize methodQueue = _methodQueue;
 
 RCT_EXPORT_MODULE()
@@ -80,21 +74,15 @@ RCT_EXPORT_MODULE()
 
     NSOperationQueue *callbackQueue = [NSOperationQueue new];
     callbackQueue.maxConcurrentOperationCount = 1;
-    callbackQueue.underlyingQueue = [[_moduleRegistry moduleForName:"Networking"] methodQueue];
-    NSURLSessionConfiguration *configuration;
-    if (urlSessionConfigurationProvider) {
-      configuration = urlSessionConfigurationProvider();
-    } else {
-      configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-      // Set allowsCellularAccess to NO ONLY if key ReactNetworkForceWifiOnly exists AND its value is YES
-      if (useWifiOnly) {
-        configuration.allowsCellularAccess = ![useWifiOnly boolValue];
-      }
-      [configuration setHTTPShouldSetCookies:YES];
-      [configuration setHTTPCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
-      [configuration setHTTPCookieStorage:[NSHTTPCookieStorage sharedHTTPCookieStorage]];
+    callbackQueue.underlyingQueue = [[_bridge networking] methodQueue];
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    // Set allowsCellularAccess to NO ONLY if key ReactNetworkForceWifiOnly exists AND its value is YES
+    if (useWifiOnly) {
+      configuration.allowsCellularAccess = ![useWifiOnly boolValue];
     }
-    assert(configuration != nil);
+    [configuration setHTTPShouldSetCookies:YES];
+    [configuration setHTTPCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
+    [configuration setHTTPCookieStorage:[NSHTTPCookieStorage sharedHTTPCookieStorage]];
     _session = [NSURLSession sessionWithConfiguration:configuration
                                              delegate:self
                                         delegateQueue:callbackQueue];
@@ -184,12 +172,6 @@ didReceiveResponse:(NSURLResponse *)response
     [_delegates removeObjectForKey:task];
   }
   [delegate URLRequest:task didCompleteWithError:error];
-}
-
-- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
-    (const facebook::react::ObjCTurboModule::InitParams &)params
-{
-  return nullptr;
 }
 
 @end

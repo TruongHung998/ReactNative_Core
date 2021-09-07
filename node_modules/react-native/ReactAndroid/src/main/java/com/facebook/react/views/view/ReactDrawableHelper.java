@@ -65,7 +65,11 @@ public class ReactDrawableHelper {
   }
 
   private static Drawable getDefaultThemeDrawable(Context context) {
-    return context.getResources().getDrawable(sResolveOutValue.resourceId, context.getTheme());
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      return context.getResources().getDrawable(sResolveOutValue.resourceId, context.getTheme());
+    } else {
+      return context.getResources().getDrawable(sResolveOutValue.resourceId);
+    }
   }
 
   private static RippleDrawable getRippleDrawable(

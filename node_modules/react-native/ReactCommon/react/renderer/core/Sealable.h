@@ -9,8 +9,6 @@
 
 #include <atomic>
 
-#include <react/debug/flags.h>
-
 namespace facebook {
 namespace react {
 
@@ -44,9 +42,8 @@ namespace react {
  *      must be prevented.
  */
 
-#ifndef REACT_NATIVE_DEBUG
+#ifdef NDEBUG
 
-// Release-mode, production version
 class Sealable {
  public:
   inline void seal() const {}
@@ -58,7 +55,6 @@ class Sealable {
 
 #else
 
-// Debug version
 class Sealable {
  public:
   Sealable();

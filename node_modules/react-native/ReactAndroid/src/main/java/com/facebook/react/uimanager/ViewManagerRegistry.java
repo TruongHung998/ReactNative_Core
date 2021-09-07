@@ -19,9 +19,9 @@ import java.util.Map;
 public final class ViewManagerRegistry {
 
   private final Map<String, ViewManager> mViewManagers;
-  private final @Nullable ViewManagerResolver mViewManagerResolver;
+  private final @Nullable UIManagerModule.ViewManagerResolver mViewManagerResolver;
 
-  public ViewManagerRegistry(ViewManagerResolver viewManagerResolver) {
+  public ViewManagerRegistry(UIManagerModule.ViewManagerResolver viewManagerResolver) {
     mViewManagers = MapBuilder.newHashMap();
     mViewManagerResolver = viewManagerResolver;
   }

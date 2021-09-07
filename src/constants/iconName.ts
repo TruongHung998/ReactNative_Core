@@ -1,6 +1,10 @@
 export const ICON_NAME = {
-    ICON_DRINK: {
+    ICON_HOME: {
         isImage: true,
-        // icon_name: require("../view/assets/images/icon/iconDrink.png")
+        icon_name: require("../assets/images/icon/home_icon.png")
+    },
+    OPTION: {
+        isImage: true,
+        icon_name: require("../assets/images/icon/option.png")
     },
 }

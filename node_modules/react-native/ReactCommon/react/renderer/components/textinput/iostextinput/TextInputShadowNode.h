@@ -24,12 +24,12 @@ extern const char TextInputComponentName[];
 /*
  * `ShadowNode` for <TextInput> component.
  */
-class TextInputShadowNode final : public ConcreteViewShadowNode<
-                                      TextInputComponentName,
-                                      TextInputProps,
-                                      TextInputEventEmitter,
-                                      TextInputState>,
-                                  public BaseTextShadowNode {
+class TextInputShadowNode : public ConcreteViewShadowNode<
+                                TextInputComponentName,
+                                TextInputProps,
+                                TextInputEventEmitter,
+                                TextInputState>,
+                            public BaseTextShadowNode {
  public:
   using ConcreteViewShadowNode::ConcreteViewShadowNode;
 
@@ -37,7 +37,6 @@ class TextInputShadowNode final : public ConcreteViewShadowNode<
     auto traits = ConcreteViewShadowNode::BaseTraits();
     traits.set(ShadowNodeTraits::Trait::TextKind);
     traits.set(ShadowNodeTraits::Trait::LeafYogaNode);
-    traits.set(ShadowNodeTraits::Trait::MeasurableYogaNode);
     return traits;
   }
 

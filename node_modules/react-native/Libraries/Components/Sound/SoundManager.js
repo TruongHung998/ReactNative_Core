@@ -8,6 +8,7 @@
  * @flow strict
  */
 
+'use strict';
 import NativeSoundManager from './NativeSoundManager';
 
 const SoundManager = {

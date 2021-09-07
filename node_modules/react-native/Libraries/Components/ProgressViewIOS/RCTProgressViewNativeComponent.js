@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import type {Float, WithDefault} from '../../Types/CodegenTypes';
 import type {ImageSource} from '../../Image/ImageSource';
 import type {ColorValue} from '../../StyleSheet/StyleSheet';

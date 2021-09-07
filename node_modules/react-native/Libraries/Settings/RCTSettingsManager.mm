@@ -24,7 +24,7 @@
   NSUserDefaults *_defaults;
 }
 
-@synthesize moduleRegistry = _moduleRegistry;
+@synthesize bridge = _bridge;
 
 RCT_EXPORT_MODULE()
 
@@ -72,7 +72,7 @@ RCT_EXPORT_MODULE()
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  [[_moduleRegistry moduleForName:"EventDispatcher"]
+  [_bridge.eventDispatcher
    sendDeviceEventWithName:@"settingsUpdated"
    body:RCTJSONClean([_defaults dictionaryRepresentation])];
 #pragma clang diagnostic pop

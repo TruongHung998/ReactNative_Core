@@ -61,7 +61,7 @@ public class DatePickerDialogModule extends NativeDatePickerAndroidSpec {
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-      if (!mPromiseResolved && getReactApplicationContext().hasActiveReactInstance()) {
+      if (!mPromiseResolved && getReactApplicationContext().hasActiveCatalystInstance()) {
         WritableMap result = new WritableNativeMap();
         result.putString("action", ACTION_DATE_SET);
         result.putInt("year", year);
@@ -74,7 +74,7 @@ public class DatePickerDialogModule extends NativeDatePickerAndroidSpec {
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-      if (!mPromiseResolved && getReactApplicationContext().hasActiveReactInstance()) {
+      if (!mPromiseResolved && getReactApplicationContext().hasActiveCatalystInstance()) {
         WritableMap result = new WritableNativeMap();
         result.putString("action", ACTION_DISMISSED);
         mPromise.resolve(result);
@@ -101,7 +101,7 @@ public class DatePickerDialogModule extends NativeDatePickerAndroidSpec {
    *     If the action is dismiss, year, month and date are undefined.
    */
   @Override
-  public void open(@Nullable final ReadableMap options, final Promise promise) {
+  public void open(@Nullable final ReadableMap options, Promise promise) {
     Activity raw_activity = getCurrentActivity();
     if (raw_activity == null || !(raw_activity instanceof FragmentActivity)) {
       promise.reject(
@@ -112,26 +112,20 @@ public class DatePickerDialogModule extends NativeDatePickerAndroidSpec {
 
     FragmentActivity activity = (FragmentActivity) raw_activity;
 
-    final FragmentManager fragmentManager = activity.getSupportFragmentManager();
+    FragmentManager fragmentManager = activity.getSupportFragmentManager();
     DialogFragment oldFragment = (DialogFragment) fragmentManager.findFragmentByTag(FRAGMENT_TAG);
     if (oldFragment != null) {
       oldFragment.dismiss();
     }
-    activity.runOnUiThread(
-        new Runnable() {
-          @Override
-          public void run() {
-            DatePickerDialogFragment fragment = new DatePickerDialogFragment();
-            if (options != null) {
-              final Bundle args = createFragmentArguments(options);
-              fragment.setArguments(args);
-            }
-            final DatePickerDialogListener listener = new DatePickerDialogListener(promise);
-            fragment.setOnDismissListener(listener);
-            fragment.setOnDateSetListener(listener);
-            fragment.show(fragmentManager, FRAGMENT_TAG);
-          }
-        });
+    DatePickerDialogFragment fragment = new DatePickerDialogFragment();
+    if (options != null) {
+      final Bundle args = createFragmentArguments(options);
+      fragment.setArguments(args);
+    }
+    final DatePickerDialogListener listener = new DatePickerDialogListener(promise);
+    fragment.setOnDismissListener(listener);
+    fragment.setOnDateSetListener(listener);
+    fragment.show(fragmentManager, FRAGMENT_TAG);
   }
 
   private Bundle createFragmentArguments(ReadableMap options) {

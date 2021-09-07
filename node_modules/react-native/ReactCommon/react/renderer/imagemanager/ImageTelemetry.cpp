@@ -10,11 +10,17 @@
 namespace facebook {
 namespace react {
 
+void ImageTelemetry::willRequestUrl() {
+  assert(willRequestUrlTime_ == kTelemetryUndefinedTimePoint);
+  willRequestUrlTime_ = telemetryTimePointNow();
+}
+
 SurfaceId ImageTelemetry::getSurfaceId() const {
   return surfaceId_;
 }
 
 TelemetryTimePoint ImageTelemetry::getWillRequestUrlTime() const {
+  assert(willRequestUrlTime_ != kTelemetryUndefinedTimePoint);
   return willRequestUrlTime_;
 }
 

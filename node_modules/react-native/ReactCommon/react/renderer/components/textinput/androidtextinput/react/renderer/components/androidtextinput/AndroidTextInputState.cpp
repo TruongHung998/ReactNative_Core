@@ -20,6 +20,7 @@ AndroidTextInputState::AndroidTextInputState(
     ParagraphAttributes const &paragraphAttributes,
     TextAttributes const &defaultTextAttributes,
     ShadowView const &defaultParentShadowView,
+    SharedTextLayoutManager const &layoutManager,
     float defaultThemePaddingStart,
     float defaultThemePaddingEnd,
     float defaultThemePaddingTop,
@@ -31,6 +32,7 @@ AndroidTextInputState::AndroidTextInputState(
       paragraphAttributes(paragraphAttributes),
       defaultTextAttributes(defaultTextAttributes),
       defaultParentShadowView(defaultParentShadowView),
+      layoutManager(layoutManager),
       defaultThemePaddingStart(defaultThemePaddingStart),
       defaultThemePaddingEnd(defaultThemePaddingEnd),
       defaultThemePaddingTop(defaultThemePaddingTop),
@@ -52,6 +54,7 @@ AndroidTextInputState::AndroidTextInputState(
       paragraphAttributes(previousState.paragraphAttributes),
       defaultTextAttributes(previousState.defaultTextAttributes),
       defaultParentShadowView(previousState.defaultParentShadowView),
+      layoutManager(previousState.layoutManager),
       defaultThemePaddingStart(data.getDefault(
                                        "themePaddingStart",
                                        previousState.defaultThemePaddingStart)

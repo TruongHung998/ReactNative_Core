@@ -8,6 +8,8 @@
  * @flow strict-local
  */
 
+'use strict';
+
 import NativeDeviceInfo from './NativeDeviceInfo';
 
 module.exports = NativeDeviceInfo;

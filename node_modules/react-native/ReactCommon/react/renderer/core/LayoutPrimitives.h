@@ -18,18 +18,18 @@ namespace react {
  * engine which should be used for laying out the node.
  */
 enum class DisplayType {
-  None = 0,
-  Flex = 1,
-  Inline = 2,
+  None,
+  Flex,
+  Inline,
 };
 
 /*
  * User interface layout direction.
  */
 enum class LayoutDirection {
-  Undefined = 0,
-  LeftToRight = 1,
-  RightToLeft = 2,
+  Undefined,
+  LeftToRight,
+  RightToLeft,
 };
 
 } // namespace react
@@ -42,12 +42,4 @@ struct hash<facebook::react::LayoutDirection> {
     return hash<int>()(static_cast<int>(v));
   }
 };
-
-template <>
-struct hash<facebook::react::DisplayType> {
-  size_t operator()(const facebook::react::DisplayType &v) const {
-    return hash<int>()(static_cast<int>(v));
-  }
-};
-
 } // namespace std

@@ -15,10 +15,4 @@ const React = require('react');
 /**
  * Whether the current element is the descendant of a <Text> element.
  */
-const TextAncestorContext = (React.createContext(
-  false,
-): React$Context<$FlowFixMe>);
-if (__DEV__) {
-  TextAncestorContext.displayName = 'TextAncestorContext';
-}
-module.exports = TextAncestorContext;
+module.exports = (React.createContext(false): React$Context<$FlowFixMe>);

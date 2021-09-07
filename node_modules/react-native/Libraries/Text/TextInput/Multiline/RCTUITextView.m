@@ -165,6 +165,8 @@ static UIColor *defaultPlaceholderColor()
   [self textDidChange];
 }
 
+#pragma mark - Overrides
+
 - (void)setSelectedTextRange:(UITextRange *)selectedTextRange notifyDelegate:(BOOL)notifyDelegate
 {
   if (!notifyDelegate) {
@@ -280,7 +282,6 @@ static UIColor *defaultPlaceholderColor()
 - (void)_updatePlaceholder
 {
   _placeholderView.attributedText = [[NSAttributedString alloc] initWithString:_placeholder ?: @"" attributes:[self _placeholderTextAttributes]];
-  [self _invalidatePlaceholderVisibility];
 }
 
 - (NSDictionary<NSAttributedStringKey, id> *)_placeholderTextAttributes
@@ -294,17 +295,6 @@ static UIColor *defaultPlaceholderColor()
   }
 
   return textAttributes;
-}
-
-#pragma mark - Caret Manipulation
-
-- (CGRect)caretRectForPosition:(UITextPosition *)position
-{
-  if (_caretHidden) {
-    return CGRectZero;
-  }
-
-  return [super caretRectForPosition:position];
 }
 
 #pragma mark - Utility Methods

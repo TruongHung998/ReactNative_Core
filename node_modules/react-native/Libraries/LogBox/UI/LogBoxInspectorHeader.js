@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import Image from '../../Image/Image';
 import Platform from '../../Utilities/Platform';
 import * as React from 'react';

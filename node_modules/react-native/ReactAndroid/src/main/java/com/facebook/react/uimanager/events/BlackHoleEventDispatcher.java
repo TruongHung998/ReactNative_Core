@@ -50,9 +50,6 @@ public class BlackHoleEventDispatcher implements EventDispatcher {
   public void registerEventEmitter(int uiManagerType, RCTEventEmitter eventEmitter) {}
 
   @Override
-  public void registerEventEmitter(int uiManagerType, RCTModernEventEmitter eventEmitter) {}
-
-  @Override
   public void unregisterEventEmitter(int uiManagerType) {}
 
   @Override

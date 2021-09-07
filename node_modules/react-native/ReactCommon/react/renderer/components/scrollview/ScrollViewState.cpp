@@ -11,7 +11,7 @@ namespace facebook {
 namespace react {
 
 Size ScrollViewState::getContentSize() const {
-  return contentBoundingRect.size;
+  return Size{contentBoundingRect.getMaxX(), contentBoundingRect.getMaxY()};
 }
 
 } // namespace react

@@ -17,10 +17,6 @@ namespace react {
 folly::dynamic ParagraphState::getDynamic() const {
   return toDynamic(*this);
 }
-
-MapBuffer ParagraphState::getMapBuffer() const {
-  return toMapBuffer(*this);
-}
 #endif
 
 } // namespace react

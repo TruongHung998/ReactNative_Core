@@ -7,19 +7,16 @@
 
 #import <Foundation/Foundation.h>
 
-#import "RCTDefines.h"
+#if defined(__cplusplus)
+extern "C" {
+#endif
 
-RCT_EXTERN NSString *const RCTBundleURLProviderUpdatedNotification;
-RCT_EXTERN const NSUInteger kRCTBundleURLProviderDefaultPort;
+extern NSString *const RCTBundleURLProviderUpdatedNotification;
 
-#if RCT_DEV_MENU
-/**
- * Allow/disallow accessing the packager server for various runtime scenario.
- * For instance, if a test run should never access the packager, disable it
- * by calling this function before initializing React Native (RCTBridge etc).
- * By default the access is enabled.
- */
-RCT_EXTERN void RCTBundleURLProviderAllowPackagerServerAccess(BOOL allowed);
+extern const NSUInteger kRCTBundleURLProviderDefaultPort;
+
+#if defined(__cplusplus)
+}
 #endif
 
 @interface RCTBundleURLProvider : NSObject
@@ -99,6 +96,8 @@ RCT_EXTERN void RCTBundleURLProviderAllowPackagerServerAccess(BOOL allowed);
  * The IP address or hostname of the packager.
  */
 @property (nonatomic, copy) NSString *jsLocation;
+
+@property (nonatomic, assign) BOOL enableLiveReload;
 @property (nonatomic, assign) BOOL enableMinification;
 @property (nonatomic, assign) BOOL enableDev;
 

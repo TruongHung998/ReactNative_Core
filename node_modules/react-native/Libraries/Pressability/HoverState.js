@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import Platform from '../Utilities/Platform';
 
 let isEnabled = false;

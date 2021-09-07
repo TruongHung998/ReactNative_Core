@@ -7,8 +7,6 @@
 
 #pragma once
 
-#include <react/debug/react_native_assert.h>
-
 #if defined(__OBJC__) && defined(__cplusplus)
 #if TARGET_OS_MAC && TARGET_OS_IPHONE
 
@@ -67,7 +65,7 @@ inline std::shared_ptr<void> wrapManagedObjectWeakly(id object) noexcept
 inline id unwrapManagedObjectWeakly(std::shared_ptr<void> const &object) noexcept
 {
   RCTInternalGenericWeakWrapper *weakWrapper = (RCTInternalGenericWeakWrapper *)unwrapManagedObject(object);
-  react_native_assert(weakWrapper && "`RCTInternalGenericWeakWrapper` instance must not be `nil`.");
+  assert(weakWrapper && "`RCTInternalGenericWeakWrapper` instance must not be `nil`.");
   return weakWrapper.object;
 }
 

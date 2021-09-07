@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
- * @flow strict
+ * @flow
  */
 
 'use strict';
@@ -18,16 +18,13 @@ import type EventSubscription from './_EventSubscription';
  * EventSubscriptionVendor stores a set of EventSubscriptions that are
  * subscribed to a particular event type.
  */
-class EventSubscriptionVendor<EventDefinitions: {...}> {
-  _subscriptionsForType: {
-    [type: $Keys<EventDefinitions>]: Array<
-      EventSubscription<EventDefinitions, $FlowFixMe>,
-    >,
-    ...,
-  };
+class EventSubscriptionVendor {
+  _subscriptionsForType: Object;
+  _currentSubscription: ?EventSubscription;
 
   constructor() {
     this._subscriptionsForType = {};
+    this._currentSubscription = null;
   }
 
   /**
@@ -36,10 +33,10 @@ class EventSubscriptionVendor<EventDefinitions: {...}> {
    * @param {string} eventType
    * @param {EventSubscription} subscription
    */
-  addSubscription<K: $Keys<EventDefinitions>>(
-    eventType: K,
-    subscription: EventSubscription<EventDefinitions, K>,
-  ): EventSubscription<EventDefinitions, K> {
+  addSubscription(
+    eventType: string,
+    subscription: EventSubscription,
+  ): EventSubscription {
     invariant(
       subscription.subscriber === this,
       'The subscriber of the subscription is incorrectly set.',
@@ -60,8 +57,8 @@ class EventSubscriptionVendor<EventDefinitions: {...}> {
    * @param {?string} eventType - Optional name of the event type whose
    *   registered supscriptions to remove, if null remove all subscriptions.
    */
-  removeAllSubscriptions<K: $Keys<EventDefinitions>>(eventType: ?K): void {
-    if (eventType == null) {
+  removeAllSubscriptions(eventType: ?string) {
+    if (eventType === undefined) {
       this._subscriptionsForType = {};
     } else {
       delete this._subscriptionsForType[eventType];
@@ -74,9 +71,7 @@ class EventSubscriptionVendor<EventDefinitions: {...}> {
    *
    * @param {object} subscription
    */
-  removeSubscription<K: $Keys<EventDefinitions>>(
-    subscription: EventSubscription<EventDefinitions, K>,
-  ): void {
+  removeSubscription(subscription: Object) {
     const eventType = subscription.eventType;
     const key = subscription.key;
 
@@ -98,9 +93,7 @@ class EventSubscriptionVendor<EventDefinitions: {...}> {
    * @param {string} eventType
    * @returns {?array}
    */
-  getSubscriptionsForType<K: $Keys<EventDefinitions>>(
-    eventType: K,
-  ): ?Array<EventSubscription<EventDefinitions, K>> {
+  getSubscriptionsForType(eventType: string): ?[EventSubscription] {
     return this._subscriptionsForType[eventType];
   }
 }

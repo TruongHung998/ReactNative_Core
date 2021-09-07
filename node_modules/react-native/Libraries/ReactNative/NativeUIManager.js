@@ -8,7 +8,8 @@
  * @format
  */
 
-import type {RootTag} from '../TurboModule/RCTExport';
+'use strict';
+
 import type {TurboModule} from '../TurboModule/RCTExport';
 import * as TurboModuleRegistry from '../TurboModule/TurboModuleRegistry';
 
@@ -20,7 +21,7 @@ export interface Spec extends TurboModule {
   +createView: (
     reactTag: ?number,
     viewName: string,
-    rootTag: RootTag,
+    rootTag: number,
     props: Object,
   ) => void;
   +updateView: (reactTag: number, viewName: string, props: Object) => void;

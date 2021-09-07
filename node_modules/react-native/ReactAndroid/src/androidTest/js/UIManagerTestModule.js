@@ -16,7 +16,6 @@ const React = require('react');
 const renderApplication = require('react-native/Libraries/ReactNative/renderApplication');
 
 const {StyleSheet, Text, View} = require('react-native');
-import type {RootTag} from 'react-native/Libraries/Types/RootTagTypes';
 
 type FlexTestAppProps = $ReadOnly<{||}>;
 class FlexTestApp extends React.Component<FlexTestAppProps> {
@@ -235,26 +234,26 @@ const UpdatePositionInListTestAppStyles = StyleSheet.create({
 const emptyExactProps = Object.freeze({});
 
 const UIManagerTestModule = {
-  renderFlexTestApplication(rootTag: RootTag) {
+  renderFlexTestApplication(rootTag: number) {
     renderApplication(FlexTestApp, emptyExactProps, rootTag);
   },
-  renderFlexWithTextApplication(rootTag: RootTag) {
+  renderFlexWithTextApplication(rootTag: number) {
     renderApplication(FlexWithText, emptyExactProps, rootTag);
   },
-  renderAbsolutePositionBottomRightTestApplication(rootTag: RootTag) {
+  renderAbsolutePositionBottomRightTestApplication(rootTag: number) {
     renderApplication(
       AbsolutePositionBottomRightTestApp,
       emptyExactProps,
       rootTag,
     );
   },
-  renderAbsolutePositionTestApplication(rootTag: RootTag) {
+  renderAbsolutePositionTestApplication(rootTag: number) {
     renderApplication(AbsolutePositionTestApp, emptyExactProps, rootTag);
   },
-  renderCenteredTextViewTestApplication(rootTag: RootTag, text: string) {
+  renderCenteredTextViewTestApplication(rootTag: number, text: string) {
     renderApplication(CenteredTextView, {text: text}, rootTag);
   },
-  renderUpdatePositionInListTestApplication(rootTag: RootTag) {
+  renderUpdatePositionInListTestApplication(rootTag: number) {
     renderApplication(UpdatePositionInListTestApp, emptyExactProps, rootTag);
   },
   flushUpdatePositionInList,

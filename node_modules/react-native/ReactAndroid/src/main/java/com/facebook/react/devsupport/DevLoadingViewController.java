@@ -29,7 +29,7 @@ import java.util.Locale;
 /** Controller to display loading messages on top of the screen. All methods are thread safe. */
 public class DevLoadingViewController {
   private static boolean sEnabled = true;
-  private final ReactInstanceDevHelper mReactInstanceManagerHelper;
+  private final ReactInstanceManagerDevHelper mReactInstanceManagerHelper;
   private @Nullable TextView mDevLoadingView;
   private @Nullable PopupWindow mDevLoadingPopup;
 
@@ -37,7 +37,7 @@ public class DevLoadingViewController {
     sEnabled = enabled;
   }
 
-  public DevLoadingViewController(ReactInstanceDevHelper reactInstanceManagerHelper) {
+  public DevLoadingViewController(ReactInstanceManagerDevHelper reactInstanceManagerHelper) {
     mReactInstanceManagerHelper = reactInstanceManagerHelper;
   }
 

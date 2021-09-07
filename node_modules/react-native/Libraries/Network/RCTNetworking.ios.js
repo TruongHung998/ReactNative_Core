@@ -4,72 +4,29 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * @flow strict-local
  * @format
+ * @flow strict-local
  */
 
 'use strict';
 
-import RCTDeviceEventEmitter from '../EventEmitter/RCTDeviceEventEmitter';
+import NativeEventEmitter from '../EventEmitter/NativeEventEmitter';
 import NativeNetworkingIOS from './NativeNetworkingIOS';
-import {type NativeResponseType} from './XMLHttpRequest';
-import convertRequestBody, {type RequestBody} from './convertRequestBody';
-import {type EventSubscription} from '../vendor/emitter/EventEmitter';
+import type {NativeResponseType} from './XMLHttpRequest';
+import convertRequestBody from './convertRequestBody';
+import type {RequestBody} from './convertRequestBody';
 
-type RCTNetworkingEventDefinitions = $ReadOnly<{
-  didSendNetworkData: [
-    [
-      number, // requestId
-      number, // progress
-      number, // total
-    ],
-  ],
-  didReceiveNetworkResponse: [
-    [
-      number, // requestId
-      number, // status
-      ?{[string]: string}, // responseHeaders
-      ?string, // responseURL
-    ],
-  ],
-  didReceiveNetworkData: [
-    [
-      number, // requestId
-      string, // response
-    ],
-  ],
-  didReceiveNetworkIncrementalData: [
-    [
-      number, // requestId
-      string, // responseText
-      number, // progress
-      number, // total
-    ],
-  ],
-  didReceiveNetworkDataProgress: [
-    [
-      number, // requestId
-      number, // loaded
-      number, // total
-    ],
-  ],
-  didCompleteNetworkResponse: [
-    [
-      number, // requestId
-      string, // error
-      boolean, // timeOutError
-    ],
-  ],
-}>;
+class RCTNetworking extends NativeEventEmitter {
+  constructor() {
+    const disableCallsIntoModule =
+      typeof global.__disableRCTNetworkingExtraneousModuleCalls === 'function'
+        ? global.__disableRCTNetworkingExtraneousModuleCalls()
+        : false;
 
-const RCTNetworking = {
-  addListener<K: $Keys<RCTNetworkingEventDefinitions>>(
-    eventType: K,
-    listener: (...$ElementType<RCTNetworkingEventDefinitions, K>) => mixed,
-    context?: mixed,
-  ): EventSubscription {
-    return RCTDeviceEventEmitter.addListener(eventType, listener, context);
-  },
+    super(NativeNetworkingIOS, {
+      __SECRET_DISABLE_CALLS_INTO_MODULE_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: disableCallsIntoModule,
+    });
+  }
 
   sendRequest(
     method: string,
@@ -97,15 +54,15 @@ const RCTNetworking = {
       },
       callback,
     );
-  },
+  }
 
   abortRequest(requestId: number) {
     NativeNetworkingIOS.abortRequest(requestId);
-  },
+  }
 
   clearCookies(callback: (result: boolean) => void) {
     NativeNetworkingIOS.clearCookies(callback);
-  },
-};
+  }
+}
 
-module.exports = RCTNetworking;
+module.exports = (new RCTNetworking(): RCTNetworking);

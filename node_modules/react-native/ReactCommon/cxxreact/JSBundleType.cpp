@@ -13,14 +13,11 @@ namespace facebook {
 namespace react {
 
 static uint32_t constexpr RAMBundleMagicNumber = 0xFB0BD1E5;
-static uint32_t constexpr HBCBundleMagicNumber = 0xffe7c3c3;
 
 ScriptTag parseTypeFromHeader(const BundleHeader &header) {
   switch (folly::Endian::little(header.magic)) {
     case RAMBundleMagicNumber:
       return ScriptTag::RAMBundle;
-    case HBCBundleMagicNumber:
-      return ScriptTag::HBCBundle;
     default:
       return ScriptTag::String;
   }
@@ -32,8 +29,6 @@ const char *stringForScriptTag(const ScriptTag &tag) {
       return "String";
     case ScriptTag::RAMBundle:
       return "RAM Bundle";
-    case ScriptTag::HBCBundle:
-      return "HBC Bundle";
   }
   return "";
 }

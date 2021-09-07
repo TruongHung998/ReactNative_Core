@@ -8,6 +8,8 @@
  * @flow strict-local
  */
 
+'use strict';
+
 import NativeJSDevSupport from './NativeJSDevSupport';
 const ReactNative = require('../Renderer/shims/ReactNative');
 

@@ -10,13 +10,16 @@
 
 // This is a controlled component version of RCTDatePickerIOS.
 
-import * as React from 'react';
+'use strict';
+
 import RCTDatePickerNativeComponent, {
   Commands as DatePickerCommands,
 } from './RCTDatePickerNativeComponent';
-import StyleSheet from '../../StyleSheet/StyleSheet';
-import View from '../View/View';
-import invariant from 'invariant';
+const React = require('react');
+const StyleSheet = require('../../StyleSheet/StyleSheet');
+const View = require('../View/View');
+
+const invariant = require('invariant');
 
 import type {SyntheticEvent} from '../../Types/CoreEventTypes';
 import type {ViewProps} from '../View/ViewPropTypes';
@@ -100,13 +103,6 @@ type Props = $ReadOnly<{|
    * instance, to show times in Pacific Standard Time, pass -7 * 60.
    */
   timeZoneOffsetInMinutes?: ?number,
-
-  /**
-   * The date picker style
-   * This is only available on devices with iOS 14.0 and later.
-   * 'spinner' is the default style if this prop isn't set.
-   */
-  pickerStyle?: ?('compact' | 'spinner' | 'inline'),
 |}>;
 
 /**
@@ -153,7 +149,7 @@ class DatePickerIOS extends React.Component<Props> {
           ref={picker => {
             this._picker = picker;
           }}
-          style={getHeight(props.pickerStyle, props.mode)}
+          style={styles.datePickerIOS}
           date={
             props.date
               ? props.date.getTime()
@@ -178,51 +174,16 @@ class DatePickerIOS extends React.Component<Props> {
           onChange={this._onChange}
           onStartShouldSetResponder={() => true}
           onResponderTerminationRequest={() => false}
-          pickerStyle={props.pickerStyle}
         />
       </View>
     );
   }
 }
 
-const inlineHeightForDatePicker = 318.5;
-const inlineHeightForTimePicker = 49.5;
-const compactHeight = 40;
-const spinnerHeight = 216;
-
 const styles = StyleSheet.create({
   datePickerIOS: {
-    height: spinnerHeight,
-  },
-  datePickerIOSCompact: {
-    height: compactHeight,
-  },
-  datePickerIOSInline: {
-    height: inlineHeightForDatePicker + inlineHeightForTimePicker * 2,
-  },
-  datePickerIOSInlineDate: {
-    height: inlineHeightForDatePicker + inlineHeightForTimePicker,
-  },
-  datePickerIOSInlineTime: {
-    height: inlineHeightForTimePicker,
+    height: 216,
   },
 });
-
-function getHeight(pickerStyle, mode) {
-  if (pickerStyle === 'compact') {
-    return styles.datePickerIOSCompact;
-  }
-  if (pickerStyle === 'inline') {
-    switch (mode) {
-      case 'date':
-        return styles.datePickerIOSInlineDate;
-      case 'time':
-        return styles.datePickerIOSInlineTime;
-      default:
-        return styles.datePickerIOSInline;
-    }
-  }
-  return styles.datePickerIOS;
-}
 
 module.exports = DatePickerIOS;

@@ -8,8 +8,12 @@
  * @flow
  */
 
+'use strict';
+
 import Platform from '../Utilities/Platform';
-import type {DialogOptions} from '../NativeModules/specs/NativeDialogManagerAndroid';
+import NativeDialogManagerAndroid, {
+  type DialogOptions,
+} from '../NativeModules/specs/NativeDialogManagerAndroid';
 import RCTAlertManager from './RCTAlertManager';
 
 export type AlertType =
@@ -46,8 +50,6 @@ class Alert {
     if (Platform.OS === 'ios') {
       Alert.prompt(title, message, buttons, 'default');
     } else if (Platform.OS === 'android') {
-      const NativeDialogManagerAndroid = require('../NativeModules/specs/NativeDialogManagerAndroid')
-        .default;
       if (!NativeDialogManagerAndroid) {
         return;
       }

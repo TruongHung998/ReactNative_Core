@@ -83,9 +83,6 @@ public abstract class YogaNodeJNIBase extends YogaNode implements Cloneable {
   }
 
   public void addChildAt(YogaNode c, int i) {
-    if (!(c instanceof YogaNodeJNIBase)) {
-      return;
-    }
     YogaNodeJNIBase child = (YogaNodeJNIBase) c;
     if (child.mOwner != null) {
       throw new IllegalStateException("Child already has a parent, it must be removed first.");
@@ -108,9 +105,6 @@ public abstract class YogaNodeJNIBase extends YogaNode implements Cloneable {
   }
 
   public void swapChildAt(YogaNode newChild, int position) {
-    if (!(newChild instanceof YogaNodeJNIBase)) {
-      return;
-    }
     YogaNodeJNIBase child = (YogaNodeJNIBase) newChild;
     mChildren.remove(position);
     mChildren.add(position, child);
@@ -197,18 +191,12 @@ public abstract class YogaNodeJNIBase extends YogaNode implements Cloneable {
     long[] nativePointers = null;
     YogaNodeJNIBase[] nodes = null;
 
-    freeze(null);
-
     ArrayList<YogaNodeJNIBase> n = new ArrayList<>();
     n.add(this);
     for (int i = 0; i < n.size(); ++i) {
-      final YogaNodeJNIBase parent = n.get(i);
-      List<YogaNodeJNIBase> children = parent.mChildren;
+      List<YogaNodeJNIBase> children = n.get(i).mChildren;
       if (children != null) {
-        for (YogaNodeJNIBase child : children) {
-          child.freeze(parent);
-          n.add(child);
-        }
+        n.addAll(children);
       }
     }
 
@@ -219,13 +207,6 @@ public abstract class YogaNodeJNIBase extends YogaNode implements Cloneable {
     }
 
     YogaNative.jni_YGNodeCalculateLayoutJNI(mNativePointer, width, height, nativePointers, nodes);
-  }
-
-  private void freeze(YogaNode parent) {
-    Object data = getData();
-    if (data instanceof Inputs) {
-      ((Inputs) data).freeze(this, parent);
-    }
   }
 
   public void dirty() {
@@ -242,9 +223,6 @@ public abstract class YogaNodeJNIBase extends YogaNode implements Cloneable {
 
   @Override
   public void copyStyle(YogaNode srcNode) {
-    if (!(srcNode instanceof YogaNodeJNIBase)) {
-      return;
-    }
     YogaNative.jni_YGNodeCopyStyleJNI(mNativePointer, ((YogaNodeJNIBase) srcNode).mNativePointer);
   }
 

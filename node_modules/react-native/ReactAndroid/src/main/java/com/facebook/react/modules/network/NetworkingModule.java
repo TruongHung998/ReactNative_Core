@@ -190,7 +190,7 @@ public final class NetworkingModule extends NativeNetworkingAndroidSpec {
   }
 
   @Override
-  public void invalidate() {
+  public void onCatalystInstanceDestroy() {
     mShuttingDown = true;
     cancelAllRequests();
 

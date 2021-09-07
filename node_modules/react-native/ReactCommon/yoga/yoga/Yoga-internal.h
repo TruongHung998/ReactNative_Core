@@ -33,10 +33,6 @@ inline bool isUndefined(float value) {
   return std::isnan(value);
 }
 
-inline bool isUndefined(double value) {
-  return std::isnan(value);
-}
-
 } // namespace yoga
 } // namespace facebook
 
@@ -148,3 +144,8 @@ static const float kDefaultFlexShrink = 0.0f;
 static const float kWebDefaultFlexShrink = 1.0f;
 
 extern bool YGFloatsEqual(const float a, const float b);
+extern facebook::yoga::detail::CompactValue YGComputedEdgeValue(
+    const facebook::yoga::detail::Values<
+        facebook::yoga::enums::count<YGEdge>()>& edges,
+    YGEdge edge,
+    facebook::yoga::detail::CompactValue defaultValue);

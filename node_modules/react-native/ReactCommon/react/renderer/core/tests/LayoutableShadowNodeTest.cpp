@@ -52,8 +52,7 @@ TEST(LayoutableShadowNodeTest, relativeLayoutMetrics) {
   auto parentShadowNode = builder.build(element);
 
   auto relativeLayoutMetrics =
-      LayoutableShadowNode::computeRelativeLayoutMetrics(
-          childShadowNode->getFamily(), *parentShadowNode, {});
+      childShadowNode->getRelativeLayoutMetrics(*parentShadowNode, {});
 
   // A is a parent to B, A has origin {10, 10}, B has origin {10, 10}.
   // B's relative origin to A should be {10, 10}.
@@ -105,14 +104,13 @@ TEST(LayoutableShadowNodeTest, contentOriginOffset) {
   auto parentShadowNode = builder.build(element);
 
   auto relativeLayoutMetrics =
-      LayoutableShadowNode::computeRelativeLayoutMetrics(
-          childShadowNode->getFamily(), *parentShadowNode, {});
+      childShadowNode->getRelativeLayoutMetrics(*parentShadowNode, {});
 
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.x, 0);
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.y, 10);
 
-  relativeLayoutMetrics = LayoutableShadowNode::computeRelativeLayoutMetrics(
-      childShadowNode->getFamily(), *parentShadowNode, {false});
+  relativeLayoutMetrics =
+      childShadowNode->getRelativeLayoutMetrics(*parentShadowNode, {false});
 
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.x, 10);
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.y, 20);
@@ -159,8 +157,7 @@ TEST(LayoutableShadowNodeTest, relativeLayoutMetricsOnTransformedNode) {
   auto parentShadowNode = builder.build(element);
 
   auto relativeLayoutMetrics =
-      LayoutableShadowNode::computeRelativeLayoutMetrics(
-          childShadowNode->getFamily(), *parentShadowNode, {});
+      childShadowNode->getRelativeLayoutMetrics(*parentShadowNode, {});
 
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.x, 35);
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.y, 70);
@@ -225,8 +222,7 @@ TEST(LayoutableShadowNodeTest, relativeLayoutMetricsOnTransformedParent) {
   auto parentShadowNode = builder.build(element);
 
   auto relativeLayoutMetrics =
-      LayoutableShadowNode::computeRelativeLayoutMetrics(
-          childShadowNode->getFamily(), *parentShadowNode, {});
+      childShadowNode->getRelativeLayoutMetrics(*parentShadowNode, {});
 
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.x, 45);
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.y, 45);
@@ -258,8 +254,7 @@ TEST(LayoutableShadowNodeTest, relativeLayoutMetricsOnSameNode) {
   auto shadowNode = builder.build(element);
 
   auto relativeLayoutMetrics =
-      LayoutableShadowNode::computeRelativeLayoutMetrics(
-          shadowNode->getFamily(), *shadowNode, {});
+      shadowNode->getRelativeLayoutMetrics(*shadowNode, {});
 
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.x, 0);
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.y, 0);
@@ -295,8 +290,7 @@ TEST(LayoutableShadowNodeTest, relativeLayoutMetricsOnSameTransformedNode) {
   auto shadowNode = builder.build(element);
 
   auto relativeLayoutMetrics =
-      LayoutableShadowNode::computeRelativeLayoutMetrics(
-          shadowNode->getFamily(), *shadowNode, {});
+      shadowNode->getRelativeLayoutMetrics(*shadowNode, {});
 
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.x, 0);
   EXPECT_EQ(relativeLayoutMetrics.frame.origin.y, 0);
@@ -338,8 +332,7 @@ TEST(LayoutableShadowNodeTest, relativeLayourMetricsOnClonedNode) {
   parentShadowNode->replaceChild(*childShadowNode, clonedChildShadowNode);
 
   auto newRelativeLayoutMetrics =
-      LayoutableShadowNode::computeRelativeLayoutMetrics(
-          childShadowNode->getFamily(), *parentShadowNode, {});
+      childShadowNode->getRelativeLayoutMetrics(*parentShadowNode, {});
   EXPECT_EQ(newRelativeLayoutMetrics.frame.size.width, 50);
   EXPECT_EQ(newRelativeLayoutMetrics.frame.size.height, 60);
 }
@@ -386,7 +379,7 @@ TEST(
 
   auto parentShadowNode = builder.build(element);
 
-  auto relativeLayoutMetrics = LayoutableShadowNode::computeRelativeLayoutMetrics(childShadowNode->getFamily(), *parentShadowNode, {});
+  auto relativeLayoutMetrics = childShadowNode->getRelativeLayoutMetrics(*parentShadowNode, {});
 
   // relativeLayoutMetrics do not include offsset of nodeAA_ because it is a
   // RootKindNode.
@@ -417,15 +410,13 @@ TEST(LayoutableShadowNodeTest, includeViewportOffset) {
 
   // `includeViewportOffset` has to work with `includeTransform` enabled and
   // disabled.
-  auto layoutMetrics = LayoutableShadowNode::computeRelativeLayoutMetrics(
-      viewShadowNode->getFamily(),
+  auto layoutMetrics = viewShadowNode->getRelativeLayoutMetrics(
       *rootShadowNode,
       {/* includeTransform = */ false, /* includeViewportOffset = */ true});
   EXPECT_EQ(layoutMetrics.frame.origin.x, 10);
   EXPECT_EQ(layoutMetrics.frame.origin.y, 20);
 
-  layoutMetrics = LayoutableShadowNode::computeRelativeLayoutMetrics(
-      viewShadowNode->getFamily(),
+  layoutMetrics = viewShadowNode->getRelativeLayoutMetrics(
       *rootShadowNode,
       {/* includeTransform = */ true, /* includeViewportOffset = */ true});
   EXPECT_EQ(layoutMetrics.frame.origin.x, 10);

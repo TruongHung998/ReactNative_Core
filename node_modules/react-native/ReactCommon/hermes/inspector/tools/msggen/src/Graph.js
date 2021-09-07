@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import invariant from 'assert';
 
 type NodeId = string;

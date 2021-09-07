@@ -26,10 +26,7 @@ public interface EventDispatcher {
 
   void removeBatchEventDispatchedListener(BatchEventDispatchedListener listener);
 
-  @Deprecated
   void registerEventEmitter(@UIManagerType int uiManagerType, RCTEventEmitter eventEmitter);
-
-  void registerEventEmitter(@UIManagerType int uiManagerType, RCTModernEventEmitter eventEmitter);
 
   void unregisterEventEmitter(@UIManagerType int uiManagerType);
 

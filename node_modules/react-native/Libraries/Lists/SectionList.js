@@ -10,9 +10,9 @@
 
 'use strict';
 
-import Platform from '../Utilities/Platform';
-import * as React from 'react';
-import VirtualizedSectionList from './VirtualizedSectionList';
+const Platform = require('../Utilities/Platform');
+const React = require('react');
+const VirtualizedSectionList = require('./VirtualizedSectionList');
 
 import type {ScrollResponderType} from '../Components/ScrollView/ScrollView';
 import type {
@@ -67,7 +67,7 @@ type OptionalProps<SectionT: SectionBase<any>> = {|
    * much more. Note these items will never be unmounted as part of the windowed rendering in order
    * to improve perceived performance of scroll-to-top actions.
    */
-  initialNumToRender?: ?number,
+  initialNumToRender: number,
   /**
    * Reverses the direction of scroll. Uses scale transforms of -1.
    */
@@ -78,7 +78,7 @@ type OptionalProps<SectionT: SectionBase<any>> = {|
    * falls back to using the index, like react does. Note that this sets keys for each item, but
    * each overall section still needs its own key.
    */
-  keyExtractor?: ?(item: Item, index: number) => string,
+  keyExtractor: (item: Item, index: number) => string,
   /**
    * Called once when the scroll position gets within `onEndReachedThreshold` of the rendered
    * content.
@@ -105,16 +105,19 @@ export type Props<SectionT> = {|
         VirtualizedSectionListProps<SectionT>,
         'renderItem',
       >,
-      keyExtractor: $PropertyType<
-        VirtualizedSectionListProps<SectionT>,
-        'keyExtractor',
-      >,
       ...
     },
   >,
   ...RequiredProps<SectionT>,
   ...OptionalProps<SectionT>,
 |};
+
+const defaultProps = {
+  ...VirtualizedSectionList.defaultProps,
+  stickySectionHeadersEnabled: Platform.OS === 'ios',
+};
+
+type DefaultProps = typeof defaultProps;
 
 /**
  * A performant interface for rendering sectioned lists, supporting the most handy features:
@@ -171,10 +174,12 @@ export type Props<SectionT> = {|
  *   Alternatively, you can provide a custom `keyExtractor` prop.
  *
  */
-export default class SectionList<
-  SectionT: SectionBase<any>,
-> extends React.PureComponent<Props<SectionT>, void> {
+class SectionList<SectionT: SectionBase<any>> extends React.PureComponent<
+  Props<SectionT>,
+  void,
+> {
   props: Props<SectionT>;
+  static defaultProps: DefaultProps = defaultProps;
 
   /**
    * Scrolls to the item at the specified `sectionIndex` and `itemIndex` (within the section)
@@ -237,16 +242,9 @@ export default class SectionList<
   }
 
   render(): React.Node {
-    const {
-      stickySectionHeadersEnabled: _stickySectionHeadersEnabled,
-      ...restProps
-    } = this.props;
-    const stickySectionHeadersEnabled =
-      _stickySectionHeadersEnabled ?? Platform.OS === 'ios';
     return (
       <VirtualizedSectionList
-        {...restProps}
-        stickySectionHeadersEnabled={stickySectionHeadersEnabled}
+        {...this.props}
         ref={this._captureRef}
         getItemCount={items => items.length}
         getItem={(items, index) => items[index]}
@@ -256,6 +254,11 @@ export default class SectionList<
 
   _wrapperListRef: ?React.ElementRef<typeof VirtualizedSectionList>;
   _captureRef = ref => {
+    /* $FlowFixMe(>=0.99.0 site=react_native_fb) This comment suppresses an
+     * error found when Flow v0.99 was deployed. To see the error, delete this
+     * comment and run Flow. */
     this._wrapperListRef = ref;
   };
 }
+
+module.exports = SectionList;

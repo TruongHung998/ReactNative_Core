@@ -196,11 +196,6 @@ RCT_EXPORT_METHOD(addImageFromBase64:(NSString *)base64String
   }
 }
 
-- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params
-{
-  return std::make_shared<facebook::react::NativeImageStoreIOSSpecJSI>(params);
-}
-
 @end
 
 @implementation RCTImageStoreManager (Deprecated)
@@ -237,6 +232,11 @@ RCT_EXPORT_METHOD(addImageFromBase64:(NSString *)base64String
       block([UIImage imageWithData:imageData]);
     });
   });
+}
+
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params
+{
+  return std::make_shared<facebook::react::NativeImageStoreIOSSpecJSI>(params);
 }
 
 @end

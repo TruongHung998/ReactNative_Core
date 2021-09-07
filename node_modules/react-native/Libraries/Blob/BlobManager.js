@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 const Blob = require('./Blob');
 const BlobRegistry = require('./BlobRegistry');
 

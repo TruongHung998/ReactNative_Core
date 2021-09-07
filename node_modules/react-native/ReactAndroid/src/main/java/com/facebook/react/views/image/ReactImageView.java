@@ -23,7 +23,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
-import com.facebook.common.internal.Objects;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.controller.AbstractDraweeControllerBuilder;
@@ -91,10 +90,8 @@ public class ReactImageView extends GenericDraweeView {
   private ImageResizeMethod mResizeMethod = ImageResizeMethod.AUTO;
 
   public void updateCallerContext(@Nullable Object callerContext) {
-    if (!Objects.equal(mCallerContext, callerContext)) {
-      mCallerContext = callerContext;
-      mIsDirty = true;
-    }
+    mCallerContext = callerContext;
+    mIsDirty = true;
   }
 
   private class RoundedCornerPostprocessor extends BasePostprocessor {
@@ -232,11 +229,6 @@ public class ReactImageView extends GenericDraweeView {
   }
 
   public void setShouldNotifyLoadEvents(boolean shouldNotify) {
-    // Skip update if shouldNotify is already in sync with the download listener
-    if (shouldNotify == (mDownloadListener != null)) {
-      return;
-    }
-
     if (!shouldNotify) {
       mDownloadListener = null;
     } else {
@@ -250,18 +242,12 @@ public class ReactImageView extends GenericDraweeView {
               // TODO: Somehow get image size and convert `loaded` and `total` to image bytes.
               mEventDispatcher.dispatchEvent(
                   ImageLoadEvent.createProgressEvent(
-                      UIManagerHelper.getSurfaceId(ReactImageView.this),
-                      getId(),
-                      mImageSource.getSource(),
-                      loaded,
-                      total));
+                      getId(), mImageSource.getSource(), loaded, total));
             }
 
             @Override
             public void onSubmit(String id, Object callerContext) {
-              mEventDispatcher.dispatchEvent(
-                  ImageLoadEvent.createLoadStartEvent(
-                      UIManagerHelper.getSurfaceId(ReactImageView.this), getId()));
+              mEventDispatcher.dispatchEvent(ImageLoadEvent.createLoadStartEvent(getId()));
             }
 
             @Override
@@ -270,22 +256,17 @@ public class ReactImageView extends GenericDraweeView {
               if (imageInfo != null) {
                 mEventDispatcher.dispatchEvent(
                     ImageLoadEvent.createLoadEvent(
-                        UIManagerHelper.getSurfaceId(ReactImageView.this),
                         getId(),
                         mImageSource.getSource(),
                         imageInfo.getWidth(),
                         imageInfo.getHeight()));
-                mEventDispatcher.dispatchEvent(
-                    ImageLoadEvent.createLoadEndEvent(
-                        UIManagerHelper.getSurfaceId(ReactImageView.this), getId()));
+                mEventDispatcher.dispatchEvent(ImageLoadEvent.createLoadEndEvent(getId()));
               }
             }
 
             @Override
             public void onFailure(String id, Throwable throwable) {
-              mEventDispatcher.dispatchEvent(
-                  ImageLoadEvent.createErrorEvent(
-                      UIManagerHelper.getSurfaceId(ReactImageView.this), getId(), throwable));
+              mEventDispatcher.dispatchEvent(ImageLoadEvent.createErrorEvent(getId(), throwable));
             }
           };
     }
@@ -314,25 +295,18 @@ public class ReactImageView extends GenericDraweeView {
   }
 
   public void setBorderColor(int borderColor) {
-    if (mBorderColor != borderColor) {
-      mBorderColor = borderColor;
-      mIsDirty = true;
-    }
+    mBorderColor = borderColor;
+    mIsDirty = true;
   }
 
   public void setOverlayColor(int overlayColor) {
-    if (mOverlayColor != overlayColor) {
-      mOverlayColor = overlayColor;
-      mIsDirty = true;
-    }
+    mOverlayColor = overlayColor;
+    mIsDirty = true;
   }
 
   public void setBorderWidth(float borderWidth) {
-    float newBorderWidth = PixelUtil.toPixelFromDIP(borderWidth);
-    if (!FloatUtil.floatsEqual(mBorderWidth, newBorderWidth)) {
-      mBorderWidth = newBorderWidth;
-      mIsDirty = true;
-    }
+    mBorderWidth = PixelUtil.toPixelFromDIP(borderWidth);
+    mIsDirty = true;
   }
 
   public void setBorderRadius(float borderRadius) {
@@ -355,39 +329,32 @@ public class ReactImageView extends GenericDraweeView {
   }
 
   public void setScaleType(ScalingUtils.ScaleType scaleType) {
-    if (mScaleType != scaleType) {
-      mScaleType = scaleType;
-      mIsDirty = true;
-    }
+    mScaleType = scaleType;
+    mIsDirty = true;
   }
 
   public void setTileMode(Shader.TileMode tileMode) {
-    if (mTileMode != tileMode) {
-      mTileMode = tileMode;
-      mIsDirty = true;
-    }
+    mTileMode = tileMode;
+    mIsDirty = true;
   }
 
   public void setResizeMethod(ImageResizeMethod resizeMethod) {
-    if (mResizeMethod != resizeMethod) {
-      mResizeMethod = resizeMethod;
-      mIsDirty = true;
-    }
+    mResizeMethod = resizeMethod;
+    mIsDirty = true;
   }
 
   public void setSource(@Nullable ReadableArray sources) {
-    List<ImageSource> tmpSources = new LinkedList<>();
-
+    mSources.clear();
     if (sources == null || sources.size() == 0) {
       ImageSource imageSource = new ImageSource(getContext(), REMOTE_TRANSPARENT_BITMAP_URI);
-      tmpSources.add(imageSource);
+      mSources.add(imageSource);
     } else {
       // Optimize for the case where we have just one uri, case in which we don't need the sizes
       if (sources.size() == 1) {
         ReadableMap source = sources.getMap(0);
         String uri = source.getString("uri");
         ImageSource imageSource = new ImageSource(getContext(), uri);
-        tmpSources.add(imageSource);
+        mSources.add(imageSource);
         if (Uri.EMPTY.equals(imageSource.getUri())) {
           warnImageSource(uri);
         }
@@ -398,44 +365,28 @@ public class ReactImageView extends GenericDraweeView {
           ImageSource imageSource =
               new ImageSource(
                   getContext(), uri, source.getDouble("width"), source.getDouble("height"));
-          tmpSources.add(imageSource);
+          mSources.add(imageSource);
           if (Uri.EMPTY.equals(imageSource.getUri())) {
             warnImageSource(uri);
           }
         }
       }
     }
-
-    // Don't reset sources and dirty node if sources haven't changed
-    if (mSources.equals(tmpSources)) {
-      return;
-    }
-
-    mSources.clear();
-    for (ImageSource src : tmpSources) {
-      mSources.add(src);
-    }
     mIsDirty = true;
   }
 
   public void setDefaultSource(@Nullable String name) {
-    Drawable newDefaultDrawable =
+    mDefaultImageDrawable =
         ResourceDrawableIdHelper.getInstance().getResourceDrawable(getContext(), name);
-    if (!Objects.equal(mDefaultImageDrawable, newDefaultDrawable)) {
-      mDefaultImageDrawable = newDefaultDrawable;
-      mIsDirty = true;
-    }
+    mIsDirty = true;
   }
 
   public void setLoadingIndicatorSource(@Nullable String name) {
     Drawable drawable =
         ResourceDrawableIdHelper.getInstance().getResourceDrawable(getContext(), name);
-    Drawable newLoadingIndicatorSource =
+    mLoadingImageDrawable =
         drawable != null ? (Drawable) new AutoRotateDrawable(drawable, 1000) : null;
-    if (!Objects.equal(mLoadingImageDrawable, newLoadingIndicatorSource)) {
-      mLoadingImageDrawable = newLoadingIndicatorSource;
-      mIsDirty = true;
-    }
+    mIsDirty = true;
   }
 
   public void setProgressiveRenderingEnabled(boolean enabled) {

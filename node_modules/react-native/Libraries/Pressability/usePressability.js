@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import Pressability, {
   type EventHandlers,
   type PressabilityConfig,

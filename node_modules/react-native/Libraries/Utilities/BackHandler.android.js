@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import NativeDeviceEventManager from '../../Libraries/NativeModules/specs/NativeDeviceEventManager';
 import RCTDeviceEventEmitter from '../EventEmitter/RCTDeviceEventEmitter';
 

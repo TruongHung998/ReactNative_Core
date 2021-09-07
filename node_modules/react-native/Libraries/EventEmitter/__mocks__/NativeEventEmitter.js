@@ -5,42 +5,19 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
- * @flow strict-local
+ * @flow
  */
 
-import {
-  type EventSubscription,
-  type IEventEmitter,
-} from '../../vendor/emitter/EventEmitter';
+'use strict';
+
+import EventEmitter from '../../vendor/emitter/EventEmitter';
 import RCTDeviceEventEmitter from '../RCTDeviceEventEmitter';
 
 /**
- * Mock `NativeEventEmitter` to ignore Native Modules.
+ * Mock the NativeEventEmitter as a normal JS EventEmitter.
  */
-export default class NativeEventEmitter<TEventToArgsMap: {...}>
-  implements IEventEmitter<TEventToArgsMap> {
-  addListener<TEvent: $Keys<TEventToArgsMap>>(
-    eventType: TEvent,
-    listener: (...args: $ElementType<TEventToArgsMap, TEvent>) => mixed,
-    context?: mixed,
-  ): EventSubscription {
-    return RCTDeviceEventEmitter.addListener(eventType, listener, context);
-  }
-
-  emit<TEvent: $Keys<TEventToArgsMap>>(
-    eventType: TEvent,
-    ...args: $ElementType<TEventToArgsMap, TEvent>
-  ): void {
-    RCTDeviceEventEmitter.emit(eventType, ...args);
-  }
-
-  removeAllListeners<TEvent: $Keys<TEventToArgsMap>>(
-    eventType?: ?TEvent,
-  ): void {
-    RCTDeviceEventEmitter.removeAllListeners(eventType);
-  }
-
-  listenerCount<TEvent: $Keys<TEventToArgsMap>>(eventType: TEvent): number {
-    return RCTDeviceEventEmitter.listenerCount(eventType);
+export default class NativeEventEmitter extends EventEmitter {
+  constructor() {
+    super(RCTDeviceEventEmitter.sharedSubscriber);
   }
 }

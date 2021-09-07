@@ -79,7 +79,7 @@ public class ReactIdleDetectionUtil {
   }
 
   private static void waitForJSIdle(ReactContext reactContext) {
-    if (!reactContext.hasActiveReactInstance()) {
+    if (!reactContext.hasActiveCatalystInstance()) {
       return;
     }
     final CountDownLatch latch = new CountDownLatch(1);

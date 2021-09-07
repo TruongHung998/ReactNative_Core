@@ -8,18 +8,32 @@
  * @flow
  */
 
+'use strict';
+
+import registerGeneratedViewConfig from '../../Utilities/registerGeneratedViewConfig';
+import requireNativeComponent from '../../ReactNative/requireNativeComponent';
+
 import type {HostComponent} from '../../Renderer/shims/ReactNativeTypes';
-import * as NativeComponentRegistry from '../../NativeComponent/NativeComponentRegistry';
-import type {ViewProps as Props} from '../View/ViewPropTypes';
+import type {ViewProps} from '../View/ViewPropTypes';
 
-const ScrollContentViewNativeComponent: HostComponent<Props> = NativeComponentRegistry.get<Props>(
-  'RCTScrollContentView',
-  () => ({
-    uiViewClassName: 'RCTScrollContentView',
-    bubblingEventTypes: {},
-    directEventTypes: {},
-    validAttributes: {},
-  }),
-);
+const ScrollContentViewViewConfig = {
+  uiViewClassName: 'RCTScrollContentView',
+  bubblingEventTypes: {},
+  directEventTypes: {},
+  validAttributes: {},
+};
 
-export default ScrollContentViewNativeComponent;
+let ScrollContentViewNativeComponent;
+if (global.RN$Bridgeless) {
+  registerGeneratedViewConfig(
+    'RCTScrollContentView',
+    ScrollContentViewViewConfig,
+  );
+  ScrollContentViewNativeComponent = 'RCTScrollContentView';
+} else {
+  ScrollContentViewNativeComponent = requireNativeComponent<ViewProps>(
+    'RCTScrollContentView',
+  );
+}
+
+export default ((ScrollContentViewNativeComponent: any): HostComponent<ViewProps>);

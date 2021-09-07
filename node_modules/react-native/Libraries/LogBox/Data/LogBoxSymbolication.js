@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import symbolicateStackTrace from '../../Core/Devtools/symbolicateStackTrace';
 
 import type {StackFrame} from '../../Core/NativeExceptionsManager';

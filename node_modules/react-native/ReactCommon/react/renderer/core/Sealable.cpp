@@ -7,8 +7,7 @@
 
 #include "Sealable.h"
 
-#include <react/debug/flags.h>
-#include <react/debug/react_native_assert.h>
+#include <cassert>
 
 namespace facebook {
 namespace react {
@@ -25,7 +24,7 @@ namespace react {
  * http://en.cppreference.com/w/cpp/language/rule_of_three
  */
 
-#ifdef REACT_NATIVE_DEBUG
+#ifndef NDEBUG
 
 Sealable::Sealable() : sealed_(false) {}
 
@@ -57,7 +56,7 @@ bool Sealable::getSealed() const {
 }
 
 void Sealable::ensureUnsealed() const {
-  react_native_assert(!sealed_ && "Attempt to mutate a sealed object.");
+  assert(!sealed_ && "Attempt to mutate a sealed object.");
 }
 
 #endif

@@ -65,9 +65,6 @@ export interface Spec extends TurboModule {
   +getDeliveredNotifications: (
     callback: (notification: Array<Notification>) => void,
   ) => void;
-  +getAuthorizationStatus: (
-    callback: (authorizationStatus: number) => void,
-  ) => void;
   +addListener: (eventType: string) => void;
   +removeListeners: (count: number) => void;
 }

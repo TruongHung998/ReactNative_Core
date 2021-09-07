@@ -8,6 +8,8 @@
  * @flow strict
  */
 
+'use strict';
+
 import invariant from 'invariant';
 
 /**
@@ -99,7 +101,7 @@ export function createStringifySafeWithLimits(limits: {|
       } catch (e) {
         if (typeof arg.toString === 'function') {
           try {
-            // $FlowFixMe[incompatible-use] : toString shouldn't take any arguments in general.
+            // $FlowFixMe: toString shouldn't take any arguments in general.
             return arg.toString();
           } catch (E) {}
         }

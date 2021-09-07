@@ -14,7 +14,6 @@
 
 const AssetRegistry = require('@react-native/assets/registry');
 const AssetSourceResolver = require('./AssetSourceResolver');
-const {pickScale} = require('./AssetUtils');
 
 import type {ResolvedAssetSource} from './AssetSourceResolver';
 
@@ -106,5 +105,5 @@ function resolveAssetSource(source: any): ?ResolvedAssetSource {
 }
 
 module.exports = resolveAssetSource;
-module.exports.pickScale = pickScale;
+module.exports.pickScale = AssetSourceResolver.pickScale;
 module.exports.setCustomSourceTransformer = setCustomSourceTransformer;

@@ -18,15 +18,13 @@ const DrawerTab = memo(({}: DrawerTabProps): JSX.Element => {
     return (
         <View style={styles.container}>
             <SafeAreaView/>
-            <View style={{height: 40}}/>
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 style={styles.scroll_view_style}
             >
                 <Text style={styles.version}>
-                    {'Phiên bản: ' + fullVersion} {Config.ENV !== 'PRODUCTION' && ' (Thử nghiệm)'}
+                    {'Version: ' + fullVersion} {Config.ENV !== 'PRODUCTION' && ' (TEST ENV)'}
                 </Text>
-                <View style={{height: 40}}/>
             </ScrollView>
         </View>
     )
@@ -43,8 +41,6 @@ const styles = StyleSheet.create({
     },
     scroll_view_style: {
         paddingHorizontal: 30,
-        borderLeftWidth: 8,
-        borderLeftColor: '#E5625C',
         marginLeft: 20,
         marginBottom: SafeAreaBottom - 50
     },

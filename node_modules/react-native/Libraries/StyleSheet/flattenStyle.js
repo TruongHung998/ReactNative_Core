@@ -10,12 +10,14 @@
 
 'use strict';
 
-import type {DangerouslyImpreciseStyleProp} from './StyleSheet';
-import type {____FlattenStyleProp_Internal} from './StyleSheetTypes';
+import type {
+  DangerouslyImpreciseStyle,
+  DangerouslyImpreciseStyleProp,
+} from './StyleSheet';
 
-function flattenStyle<+TStyleProp: DangerouslyImpreciseStyleProp>(
-  style: ?TStyleProp,
-): ?____FlattenStyleProp_Internal<TStyleProp> {
+function flattenStyle(
+  style: ?DangerouslyImpreciseStyleProp,
+): ?DangerouslyImpreciseStyle {
   if (style === null || typeof style !== 'object') {
     return undefined;
   }

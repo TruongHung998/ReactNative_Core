@@ -73,8 +73,8 @@ std::vector<MethodCall> parseMethodCalls(folly::dynamic &&jsonData) {
     }
 
     methodCalls.emplace_back(
-        static_cast<int>(moduleIds[i].asInt()),
-        static_cast<int>(methodIds[i].asInt()),
+        moduleIds[i].asInt(),
+        methodIds[i].asInt(),
         std::move(params[i]),
         callId);
 

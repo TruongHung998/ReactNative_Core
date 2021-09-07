@@ -6,9 +6,7 @@ import MainAppNavigation from "./mainAppNavigation";
 const RootNavigation = memo((props) => {
 
     return (
-        <StackNavigator.Navigator
-            options={{headerShown: false}}
-        >
+        <StackNavigator.Navigator>
 
             <StackNavigator.Screen
                 name={NAVIGATION_MAIN_APP}

@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import {
   jsTypeToCppType,
   toCppNamespace,
@@ -154,7 +156,6 @@ class RefProperty extends Property {
   constructor(domain: string, obj: any) {
     super(domain, obj);
     this.$ref = obj.$ref;
-    this.recursive = obj.recursive;
   }
 
   getRefDebuggerName(): ?string {

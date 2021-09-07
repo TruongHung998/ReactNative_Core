@@ -15,6 +15,7 @@ const MainAppNavigation = memo(() => {
             <StackNavigator.Screen
                 name={NAVIGATION_BOTTOM_TAB}
                 component={BottomTabNavigation}
+                options={{headerShown: false}}
             />
         </DrawerNavigator.Navigator>
     )

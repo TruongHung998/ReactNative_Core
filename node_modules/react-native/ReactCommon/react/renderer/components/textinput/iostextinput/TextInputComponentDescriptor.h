@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <react/debug/react_native_assert.h>
 #include <react/renderer/components/iostextinput/TextInputShadowNode.h>
 #include <react/renderer/core/ConcreteComponentDescriptor.h>
 
@@ -27,15 +26,16 @@ class TextInputComponentDescriptor final
   }
 
  protected:
-  void adopt(ShadowNode::Unshared const &shadowNode) const override {
+  void adopt(UnsharedShadowNode shadowNode) const override {
     ConcreteComponentDescriptor::adopt(shadowNode);
 
-    react_native_assert(
-        std::dynamic_pointer_cast<TextInputShadowNode>(shadowNode));
+    assert(std::dynamic_pointer_cast<TextInputShadowNode>(shadowNode));
     auto concreteShadowNode =
         std::static_pointer_cast<TextInputShadowNode>(shadowNode);
 
     concreteShadowNode->setTextLayoutManager(textLayoutManager_);
+    concreteShadowNode->dirtyLayout();
+    concreteShadowNode->enableMeasurement();
   }
 
  private:

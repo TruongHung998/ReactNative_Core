@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <react/debug/react_native_assert.h>
 #include <react/renderer/components/slider/SliderMeasurementsManager.h>
 #include <react/renderer/components/slider/SliderShadowNode.h>
 #include <react/renderer/core/ConcreteComponentDescriptor.h>
@@ -29,11 +28,10 @@ class SliderComponentDescriptor final
                 ? std::make_shared<SliderMeasurementsManager>(contextContainer_)
                 : nullptr) {}
 
-  void adopt(ShadowNode::Unshared const &shadowNode) const override {
+  void adopt(UnsharedShadowNode shadowNode) const override {
     ConcreteComponentDescriptor::adopt(shadowNode);
 
-    react_native_assert(
-        std::dynamic_pointer_cast<SliderShadowNode>(shadowNode));
+    assert(std::dynamic_pointer_cast<SliderShadowNode>(shadowNode));
     auto sliderShadowNode =
         std::static_pointer_cast<SliderShadowNode>(shadowNode);
 

@@ -11,19 +11,8 @@
 'use strict';
 
 if (__DEV__) {
-  let isWebSocketOpen = false;
-  let ws = null;
-
   const reactDevTools = require('react-devtools-core');
   const connectToDevTools = () => {
-    if (ws !== null && isWebSocketOpen) {
-      // If the DevTools backend is already connected, don't recreate the WebSocket.
-      // This would break the connection.
-      // If there isn't an active connection, a backend may be waiting to connect,
-      // in which case it's okay to make a new one.
-      return;
-    }
-
     // not when debugging in chrome
     // TODO(t12832058) This check is broken
     if (!window.document) {
@@ -50,13 +39,7 @@ if (__DEV__) {
           : 8097;
 
       const WebSocket = require('../WebSocket/WebSocket');
-      ws = new WebSocket('ws://' + host + ':' + port);
-      ws.addEventListener('close', event => {
-        isWebSocketOpen = false;
-      });
-      ws.addEventListener('open', event => {
-        isWebSocketOpen = true;
-      });
+      const ws = new WebSocket('ws://' + host + ':' + port);
 
       const viewConfig = require('../Components/View/ReactNativeViewViewConfig');
       reactDevTools.connectToDevTools({

@@ -1,12 +1,14 @@
 import React, {memo} from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {SafeAreaView, StyleSheet, Text, View} from "react-native";
+import BaseHeaderHome from "../elements/header/baseHeader";
 
 const HomePage = memo(() => {
-    return <View style={styles.container}>
+    return <SafeAreaView style={styles.container}>
+        <BaseHeaderHome backgroundColor={'white'} title={'React Native'}/>
         <Text>
-            hung
+            any
         </Text>
-    </View>
+    </SafeAreaView>
 })
 
 const styles = StyleSheet.create({

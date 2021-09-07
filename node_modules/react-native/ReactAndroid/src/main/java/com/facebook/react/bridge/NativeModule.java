@@ -47,13 +47,6 @@ public interface NativeModule {
    */
   boolean canOverrideExistingModule();
 
-  /**
-   * Allow NativeModule to clean up. Called before {CatalystInstance#onHostDestroy}
-   *
-   * @deprecated use {@link #invalidate()} instead.
-   */
+  /** Called before {CatalystInstance#onHostDestroy} */
   void onCatalystInstanceDestroy();
-
-  /** Allow NativeModule to clean up. Called before {CatalystInstance#onHostDestroy} */
-  void invalidate();
 }

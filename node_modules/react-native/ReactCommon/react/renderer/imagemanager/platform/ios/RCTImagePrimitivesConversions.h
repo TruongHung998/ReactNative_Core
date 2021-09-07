@@ -12,21 +12,19 @@
 
 using namespace facebook::react;
 
-inline static UIViewContentMode RCTContentModeFromImageResizeMode(ImageResizeMode imageResizeMode)
+inline static RCTResizeMode RCTResizeModeFromImageResizeMode(ImageResizeMode imageResizeMode)
 {
   switch (imageResizeMode) {
     case ImageResizeMode::Cover:
-      return UIViewContentModeScaleAspectFill;
+      return RCTResizeModeCover;
     case ImageResizeMode::Contain:
-      return UIViewContentModeScaleAspectFit;
+      return RCTResizeModeContain;
     case ImageResizeMode::Stretch:
-      return UIViewContentModeScaleToFill;
+      return RCTResizeModeStretch;
     case ImageResizeMode::Center:
-      return UIViewContentModeCenter;
+      return RCTResizeModeCenter;
     case ImageResizeMode::Repeat:
-      // Repeat resize mode is handled by the UIImage. Use scale to fill
-      // so the repeated image fills the UIImageView.
-      return UIViewContentModeScaleToFill;
+      return RCTResizeModeRepeat;
   }
 }
 

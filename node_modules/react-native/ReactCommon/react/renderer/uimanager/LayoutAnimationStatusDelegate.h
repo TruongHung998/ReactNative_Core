@@ -7,7 +7,8 @@
 
 #pragma once
 
-namespace facebook::react {
+namespace facebook {
+namespace react {
 
 class LayoutAnimationStatusDelegate {
  public:
@@ -25,4 +26,5 @@ class LayoutAnimationStatusDelegate {
   virtual void onAllAnimationsComplete() = 0;
 };
 
-} // namespace facebook::react
+} // namespace react
+} // namespace facebook

@@ -90,7 +90,7 @@ public class NativeAnimatedNodeTraversalTest {
     mFrameTimeNanos = INITIAL_FRAME_TIME_NANOS;
 
     mReactApplicationContextMock = mock(ReactApplicationContext.class);
-    PowerMockito.when(mReactApplicationContextMock.hasActiveReactInstance())
+    PowerMockito.when(mReactApplicationContextMock.hasActiveCatalystInstance())
         .thenAnswer(
             new Answer<Boolean>() {
               @Override

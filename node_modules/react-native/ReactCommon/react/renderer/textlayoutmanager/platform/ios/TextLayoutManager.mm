@@ -6,7 +6,6 @@
  */
 
 #include "TextLayoutManager.h"
-#include <react/renderer/telemetry/TransactionTelemetry.h>
 #include <react/utils/ManagedObjectWrapper.h>
 
 #import "RCTTextLayoutManager.h"
@@ -40,20 +39,9 @@ TextMeasurement TextLayoutManager::measure(
 
       measurement = measureCache_.get(
           {attributedString, paragraphAttributes, layoutConstraints}, [&](TextMeasureCacheKey const &key) {
-            auto telemetry = TransactionTelemetry::threadLocalTelemetry();
-            if (telemetry) {
-              telemetry->willMeasureText();
-            }
-
-            auto measurement = [textLayoutManager measureAttributedString:attributedString
-                                                      paragraphAttributes:paragraphAttributes
-                                                        layoutConstraints:layoutConstraints];
-
-            if (telemetry) {
-              telemetry->didMeasureText();
-            }
-
-            return measurement;
+            return [textLayoutManager measureAttributedString:attributedString
+                                          paragraphAttributes:paragraphAttributes
+                                            layoutConstraints:layoutConstraints];
           });
       break;
     }
@@ -62,19 +50,9 @@ TextMeasurement TextLayoutManager::measure(
       NSAttributedString *nsAttributedString =
           (NSAttributedString *)unwrapManagedObject(attributedStringBox.getOpaquePointer());
 
-      auto telemetry = TransactionTelemetry::threadLocalTelemetry();
-      if (telemetry) {
-        telemetry->willMeasureText();
-      }
-
       measurement = [textLayoutManager measureNSAttributedString:nsAttributedString
                                              paragraphAttributes:paragraphAttributes
                                                layoutConstraints:layoutConstraints];
-
-      if (telemetry) {
-        telemetry->didMeasureText();
-      }
-
       break;
     }
   }

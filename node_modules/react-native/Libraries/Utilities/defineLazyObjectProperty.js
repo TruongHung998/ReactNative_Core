@@ -14,7 +14,7 @@
  * Defines a lazily evaluated property on the supplied `object`.
  */
 function defineLazyObjectProperty<T>(
-  object: interface {},
+  object: {...},
   name: string,
   descriptor: {
     get: () => T,

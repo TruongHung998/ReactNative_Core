@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Graph} from '../src/Graph.js';
+'use strict';
+
+import { Graph } from '../src/Graph.js';
 
 // graph looks like this before test: https://pxl.cl/9k8t
 let graph = null;

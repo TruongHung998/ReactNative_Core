@@ -6,7 +6,6 @@
  */
 
 #include <react/renderer/graphics/Transform.h>
-
 #include <gtest/gtest.h>
 #include <math.h>
 

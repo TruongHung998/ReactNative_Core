@@ -8,6 +8,7 @@
  * @format
  */
 
+'use strict';
 import Colors from './Colors';
 import type {Node} from 'react';
 import openURLInBrowser from 'react-native/Libraries/Core/Devtools/openURLInBrowser';

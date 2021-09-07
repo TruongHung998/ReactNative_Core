@@ -8,11 +8,14 @@
  * @flow strict-local
  */
 
-import * as React from 'react';
-import StyleSheet, {type ColorValue} from '../../StyleSheet/StyleSheet';
+'use strict';
+
+const React = require('react');
+const StyleSheet = require('../../StyleSheet/StyleSheet');
 
 import RCTProgressViewNativeComponent from './RCTProgressViewNativeComponent';
 import type {ImageSource} from '../../Image/ImageSource';
+import type {ColorValue} from '../../StyleSheet/StyleSheet';
 import type {ViewProps} from '../View/ViewPropTypes';
 
 type Props = $ReadOnly<{|

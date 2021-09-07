@@ -7,16 +7,13 @@
 
 #pragma once
 
-#include "AndroidTextInputShadowNode.h"
-
 #include <fbjni/fbjni.h>
+#include <react/renderer/core/ConcreteComponentDescriptor.h>
+#include "AndroidTextInputShadowNode.h"
 
 #include <yoga/CompactValue.h>
 #include <yoga/YGEnums.h>
 #include <yoga/YGValue.h>
-
-#include <react/debug/react_native_assert.h>
-#include <react/renderer/core/ConcreteComponentDescriptor.h>
 
 namespace facebook {
 namespace react {
@@ -79,6 +76,7 @@ class AndroidTextInputComponentDescriptor final
             {},
             {},
             {},
+            textLayoutManager_,
             ((YGValue)theme[YGEdgeStart]).value,
             ((YGValue)theme[YGEdgeEnd]).value,
             ((YGValue)theme[YGEdgeTop]).value,
@@ -87,9 +85,8 @@ class AndroidTextInputComponentDescriptor final
   }
 
  protected:
-  void adopt(ShadowNode::Unshared const &shadowNode) const override {
-    react_native_assert(
-        std::dynamic_pointer_cast<AndroidTextInputShadowNode>(shadowNode));
+  void adopt(UnsharedShadowNode shadowNode) const override {
+    assert(std::dynamic_pointer_cast<AndroidTextInputShadowNode>(shadowNode));
     auto textInputShadowNode =
         std::static_pointer_cast<AndroidTextInputShadowNode>(shadowNode);
 

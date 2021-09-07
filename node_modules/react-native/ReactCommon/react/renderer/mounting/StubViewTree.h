@@ -21,26 +21,14 @@ class StubViewTree {
   StubViewTree() = default;
   StubViewTree(ShadowView const &shadowView);
 
-  void mutate(ShadowViewMutationList const &mutations);
+  void mutate(
+      ShadowViewMutationList const &mutations,
+      bool ignoreDuplicateCreates = false);
 
   StubView const &getRootStubView() const;
 
-  /*
-   * Returns a view with given tag.
-   */
-  StubView const &getStubView(Tag tag) const;
-
-  /*
-   * Returns the total amount of views in the tree.
-   */
-  size_t size() const;
-
- private:
   Tag rootTag;
   std::unordered_map<Tag, StubView::Shared> registry{};
-
-  friend bool operator==(StubViewTree const &lhs, StubViewTree const &rhs);
-  friend bool operator!=(StubViewTree const &lhs, StubViewTree const &rhs);
 };
 
 bool operator==(StubViewTree const &lhs, StubViewTree const &rhs);

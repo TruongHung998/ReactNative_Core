@@ -8,6 +8,8 @@
  * @flow strict-local
  */
 
+'use strict';
+
 import NativeAlertManager from './NativeAlertManager';
 import type {Args} from './NativeAlertManager';
 

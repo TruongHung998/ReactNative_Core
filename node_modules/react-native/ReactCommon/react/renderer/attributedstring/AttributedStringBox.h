@@ -41,9 +41,9 @@ class AttributedStringBox final {
    * Movable, Copyable, Assignable.
    */
   AttributedStringBox(AttributedStringBox const &other) = default;
-  AttributedStringBox(AttributedStringBox &&other) noexcept;
+  AttributedStringBox(AttributedStringBox &&other) noexcept = default;
   AttributedStringBox &operator=(AttributedStringBox const &other) = default;
-  AttributedStringBox &operator=(AttributedStringBox &&other);
+  AttributedStringBox &operator=(AttributedStringBox &&other) = default;
 
   /*
    * Getters.

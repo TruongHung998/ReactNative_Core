@@ -16,12 +16,10 @@ public class SendAccessibilityEvent implements MountItem {
 
   private final String TAG = "Fabric.SendAccessibilityEvent";
 
-  private final int mSurfaceId;
   private final int mReactTag;
   private final int mEventType;
 
-  public SendAccessibilityEvent(int surfaceId, int reactTag, int eventType) {
-    mSurfaceId = surfaceId;
+  public SendAccessibilityEvent(int reactTag, int eventType) {
     mReactTag = reactTag;
     mEventType = eventType;
   }
@@ -29,7 +27,7 @@ public class SendAccessibilityEvent implements MountItem {
   @Override
   public void execute(@NonNull MountingManager mountingManager) {
     try {
-      mountingManager.sendAccessibilityEvent(mSurfaceId, mReactTag, mEventType);
+      mountingManager.sendAccessibilityEvent(mReactTag, mEventType);
     } catch (RetryableMountingLayerException e) {
       // Accessibility events are similar to commands in that they're imperative
       // calls from JS, disconnected from the commit lifecycle, and therefore
@@ -40,11 +38,6 @@ public class SendAccessibilityEvent implements MountItem {
       // Other categories of errors will still cause a hard crash.
       ReactSoftException.logSoftException(TAG, e);
     }
-  }
-
-  @Override
-  public int getSurfaceId() {
-    return mSurfaceId;
   }
 
   @Override

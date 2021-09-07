@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import * as LogBoxSymbolication from './LogBoxSymbolication';
 
 import type {

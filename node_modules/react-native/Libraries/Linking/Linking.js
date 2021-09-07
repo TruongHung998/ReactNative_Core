@@ -8,7 +8,8 @@
  * @flow strict-local
  */
 
-import {type EventSubscription} from '../vendor/emitter/EventEmitter';
+'use strict';
+
 import NativeEventEmitter from '../EventEmitter/NativeEventEmitter';
 import InteractionManager from '../Interaction/InteractionManager';
 import Platform from '../Utilities/Platform';
@@ -17,17 +18,13 @@ import NativeIntentAndroid from './NativeIntentAndroid';
 import invariant from 'invariant';
 import nullthrows from 'nullthrows';
 
-type LinkingEventDefinitions = {
-  url: [{url: string}],
-};
-
 /**
  * `Linking` gives you a general interface to interact with both incoming
  * and outgoing app links.
  *
  * See https://reactnative.dev/docs/linking.html
  */
-class Linking extends NativeEventEmitter<LinkingEventDefinitions> {
+class Linking extends NativeEventEmitter {
   constructor() {
     super(Platform.OS === 'ios' ? nullthrows(NativeLinkingManager) : undefined);
   }
@@ -38,23 +35,17 @@ class Linking extends NativeEventEmitter<LinkingEventDefinitions> {
    *
    * See https://reactnative.dev/docs/linking.html#addeventlistener
    */
-  addEventListener<K: $Keys<LinkingEventDefinitions>>(
-    eventType: K,
-    listener: (...$ElementType<LinkingEventDefinitions, K>) => mixed,
-    context: $FlowFixMe,
-  ): EventSubscription {
-    return this.addListener(eventType, listener);
+  addEventListener<T>(type: string, handler: T) {
+    this.addListener(type, handler);
   }
 
   /**
-   * @deprecated Use `remove` on the EventSubscription from `addEventListener`.
+   * Remove a handler by passing the `url` event type and the handler.
+   *
+   * See https://reactnative.dev/docs/linking.html#removeeventlistener
    */
-  removeEventListener<K: $Keys<LinkingEventDefinitions>>(
-    eventType: K,
-    listener: (...$ElementType<LinkingEventDefinitions, K>) => mixed,
-  ): void {
-    // NOTE: This will report a deprecation notice via `console.error`.
-    this.removeListener(eventType, listener);
+  removeEventListener<T>(type: string, handler: T) {
+    this.removeListener(type, handler);
   }
 
   /**

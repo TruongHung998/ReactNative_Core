@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import * as React from 'react';
 import StyleSheet from '../../StyleSheet/StyleSheet';
 import Text from '../../Text/Text';
@@ -63,10 +65,7 @@ export function getCollapseMessage(
 }
 
 function LogBoxInspectorStackFrames(props: Props): React.Node {
-  const [collapsed, setCollapsed] = React.useState(() => {
-    // Only collapse frames initially if some frames are not collapsed.
-    return props.log.getAvailableStack().some(({collapse}) => !collapse);
-  });
+  const [collapsed, setCollapsed] = React.useState(true);
 
   function getStackList() {
     if (collapsed === true) {

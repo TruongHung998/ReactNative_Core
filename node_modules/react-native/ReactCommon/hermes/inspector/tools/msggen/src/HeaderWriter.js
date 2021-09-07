@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import {Writable} from 'stream';
 
 import {GeneratedHeader} from './GeneratedHeader';

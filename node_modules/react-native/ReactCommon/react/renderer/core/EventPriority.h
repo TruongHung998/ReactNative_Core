@@ -10,7 +10,7 @@
 namespace facebook {
 namespace react {
 
-enum class EventPriority {
+enum class EventPriority : int {
   SynchronousUnbatched,
   SynchronousBatched,
   AsynchronousUnbatched,

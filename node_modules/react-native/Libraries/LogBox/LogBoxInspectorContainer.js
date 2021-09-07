@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import * as React from 'react';
 import {View, StyleSheet} from 'react-native';
 import * as LogBoxData from './Data/LogBoxData';

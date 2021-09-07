@@ -22,7 +22,8 @@ const BottomTabNavigation = memo(() => {
                         tabBarVisible: getTabBarVisibility(route),
                         tabBarLabel: SCREENS.Home.description,
                         iconName: SCREENS.Home.iconName,
-                        activeColor: SCREENS.Home.activeColor
+                        activeColor: SCREENS.Home.activeColor,
+                        headerShown: false
                     }
                 }}
             />
@@ -34,7 +35,8 @@ const BottomTabNavigation = memo(() => {
                         tabBarVisible: getTabBarVisibility(route),
                         tabBarLabel: SCREENS.Example1.description,
                         iconName: SCREENS.Example1.iconName,
-                        activeColor: SCREENS.Example1.activeColor
+                        activeColor: SCREENS.Example1.activeColor,
+                        headerShown: false
                     }
                 }}
             />
@@ -47,7 +49,8 @@ const BottomTabNavigation = memo(() => {
                         tabBarVisible: getTabBarVisibility(route),
                         tabBarLabel: SCREENS.Example2.description,
                         iconName: SCREENS.Example2.iconName,
-                        activeColor: SCREENS.Example2.activeColor
+                        activeColor: SCREENS.Example2.activeColor,
+                        headerShown: false
                     }
                 }}
             />

@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
- * @flow strict
+ * @noflow
  * @typecheck
  */
+
+'use strict';
 
 const invariant = require('invariant');
 
 import EmitterSubscription from './_EmitterSubscription';
-import {type EventSubscription} from './EventSubscription';
 import EventSubscriptionVendor from './_EventSubscriptionVendor';
 
 const sparseFilterPredicate = () => true;
@@ -30,17 +31,17 @@ const sparseFilterPredicate = () => true;
  * mechanism on top of which extra functionality can be composed. For example, a
  * more advanced emitter may use an EventHolder and EventFactory.
  */
-class EventEmitter<EventDefinitions: {...}> {
-  _subscriber: EventSubscriptionVendor<EventDefinitions> = new EventSubscriptionVendor<EventDefinitions>();
+class EventEmitter {
+  _subscriber: EventSubscriptionVendor;
 
   /**
    * @constructor
+   *
+   * @param {EventSubscriptionVendor} subscriber - Optional subscriber instance
+   *   to use. If omitted, a new subscriber will be created for the emitter.
    */
-  constructor(subscriber: ?EventSubscriptionVendor<EventDefinitions>) {
-    if (subscriber != null) {
-      console.warn('EventEmitter(...): Constructor argument is deprecated.');
-      this._subscriber = subscriber;
-    }
+  constructor(subscriber: ?EventSubscriptionVendor) {
+    this._subscriber = subscriber || new EventSubscriptionVendor();
   }
 
   /**
@@ -48,22 +49,24 @@ class EventEmitter<EventDefinitions: {...}> {
    * emitted. An optional calling context may be provided. The data arguments
    * emitted will be passed to the listener function.
    *
+   * TODO: Annotate the listener arg's type. This is tricky because listeners
+   *       can be invoked with varargs.
+   *
    * @param {string} eventType - Name of the event to listen to
    * @param {function} listener - Function to invoke when the specified event is
    *   emitted
    * @param {*} context - Optional context object to use when invoking the
    *   listener
    */
-  addListener<K: $Keys<EventDefinitions>>(
-    eventType: K,
-    // FIXME: listeners should return void instead of mixed to prevent issues
-    listener: (...$ElementType<EventDefinitions, K>) => mixed,
-    context: $FlowFixMe,
-  ): EventSubscription {
+  addListener(
+    eventType: string,
+    listener: Function,
+    context: ?Object,
+  ): EmitterSubscription {
     return (this._subscriber.addSubscription(
       eventType,
       new EmitterSubscription(this, this._subscriber, listener, context),
-    ): $FlowFixMe);
+    ): any);
   }
 
   /**
@@ -73,29 +76,15 @@ class EventEmitter<EventDefinitions: {...}> {
    * @param {?string} eventType - Optional name of the event whose registered
    *   listeners to remove
    */
-  removeAllListeners<K: $Keys<EventDefinitions>>(eventType: ?K): void {
+  removeAllListeners(eventType: ?string) {
     this._subscriber.removeAllSubscriptions(eventType);
   }
 
   /**
-   * @deprecated Use `remove` on the EventSubscription from `addListener`.
+   * Removes a specific subscription. Called by the `remove()` method of the
+   * subscription itself to ensure any necessary cleanup is performed.
    */
-  removeSubscription<K: $Keys<EventDefinitions>>(
-    subscription: EmitterSubscription<EventDefinitions, K>,
-  ): void {
-    console.warn(
-      'EventEmitter.removeSubscription(...): Method has been deprecated. ' +
-        'Please instead use `remove()` on the subscription itself.',
-    );
-    this.__removeSubscription(subscription);
-  }
-
-  /**
-   * Called by `EmitterSubscription` to bypass the above deprecation warning.
-   */
-  __removeSubscription<K: $Keys<EventDefinitions>>(
-    subscription: EmitterSubscription<EventDefinitions, K>,
-  ): void {
+  removeSubscription(subscription: EmitterSubscription) {
     invariant(
       subscription.emitter === this,
       'Subscription does not belong to this emitter.',
@@ -110,7 +99,7 @@ class EventEmitter<EventDefinitions: {...}> {
    * @param {string} eventType - Name of the event to query
    * @returns {number}
    */
-  listenerCount<K: $Keys<EventDefinitions>>(eventType: K): number {
+  listenerCount(eventType: string): number {
     const subscriptions = this._subscriber.getSubscriptionsForType(eventType);
     return subscriptions
       ? // We filter out missing entries because the array is sparse.
@@ -135,10 +124,7 @@ class EventEmitter<EventDefinitions: {...}> {
    *
    *   emitter.emit('someEvent', 'abc'); // logs 'abc'
    */
-  emit<K: $Keys<EventDefinitions>>(
-    eventType: K,
-    ...args: $ElementType<EventDefinitions, K>
-  ): void {
+  emit(eventType: string) {
     const subscriptions = this._subscriber.getSubscriptionsForType(eventType);
     if (subscriptions) {
       for (let i = 0, l = subscriptions.length; i < l; i++) {
@@ -146,25 +132,29 @@ class EventEmitter<EventDefinitions: {...}> {
 
         // The subscription may have been removed during this event loop.
         if (subscription && subscription.listener) {
-          subscription.listener.apply(subscription.context, args);
+          subscription.listener.apply(
+            subscription.context,
+            Array.prototype.slice.call(arguments, 1),
+          );
         }
       }
     }
   }
 
   /**
-   * @deprecated Use `remove` on the EventSubscription from `addListener`.
+   * Removes the given listener for event of specific type.
+   *
+   * @param {string} eventType - Name of the event to emit
+   * @param {function} listener - Function to invoke when the specified event is
+   *   emitted
+   *
+   * @example
+   *   emitter.removeListener('someEvent', function(message) {
+   *     console.log(message);
+   *   }); // removes the listener if already registered
+   *
    */
-  removeListener<K: $Keys<EventDefinitions>>(
-    eventType: K,
-    // FIXME: listeners should return void instead of mixed to prevent issues
-    listener: (...$ElementType<EventDefinitions, K>) => mixed,
-  ): void {
-    console.warn(
-      `EventEmitter.removeListener('${eventType}', ...): Method has been ` +
-        'deprecated. Please instead use `remove()` on the subscription ' +
-        'returned by `EventEmitter.addListener`.',
-    );
+  removeListener(eventType: String, listener) {
     const subscriptions = this._subscriber.getSubscriptionsForType(eventType);
     if (subscriptions) {
       for (let i = 0, l = subscriptions.length; i < l; i++) {

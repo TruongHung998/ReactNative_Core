@@ -8,7 +8,9 @@
  * @flow strict-local
  */
 
-import UIManager from '../ReactNative/UIManager';
+'use strict';
+
+const UIManager = require('../ReactNative/UIManager');
 
 /**
  * Adds a deprecation warning when the prop is used.
@@ -21,7 +23,7 @@ function deprecatedPropType(
     // Don't warn for native components.
     if (
       !global.RN$Bridgeless &&
-      UIManager.hasViewManagerConfig(componentName) &&
+      !UIManager.getViewManagerConfig(componentName) &&
       props[propName] !== undefined
     ) {
       console.warn(

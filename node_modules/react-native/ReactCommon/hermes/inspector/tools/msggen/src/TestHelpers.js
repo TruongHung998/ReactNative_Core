@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-/*global expect*/
+ /*global expect*/
+
+'use strict';
 
 // munges string so that it's nice to look at in a test diff
 function strip(str) {

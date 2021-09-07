@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import Platform from '../Utilities/Platform';
 
 import type {ImageURISource} from './ImageSource';

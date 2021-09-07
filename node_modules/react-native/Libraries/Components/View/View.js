@@ -8,11 +8,13 @@
  * @flow strict-local
  */
 
+'use strict';
+
 import type {ViewProps} from './ViewPropTypes';
 
+const React = require('react');
 import ViewNativeComponent from './ViewNativeComponent';
-import TextAncestor from '../../Text/TextAncestor';
-import * as React from 'react';
+const TextAncestor = require('../../Text/TextAncestor');
 
 export type Props = ViewProps;
 

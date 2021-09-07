@@ -8,6 +8,8 @@
  * @flow strict-local
  */
 
+'use strict';
+
 import type {Options, DatePickerOpenAction} from './DatePickerAndroidTypes';
 import NativeDatePickerAndroid from './NativeDatePickerAndroid';
 

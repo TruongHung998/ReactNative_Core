@@ -7,7 +7,7 @@
 
 #include "RunLoopObserver.h"
 
-#include <react/debug/react_native_assert.h>
+#include <cassert>
 
 namespace facebook {
 namespace react {
@@ -19,9 +19,8 @@ RunLoopObserver::RunLoopObserver(
 
 void RunLoopObserver::setDelegate(Delegate const *delegate) const noexcept {
   // We need these constraints to ensure basic thread-safety.
-  react_native_assert(delegate && "A delegate must not be `nullptr`.");
-  react_native_assert(
-      !delegate_ && "`RunLoopObserver::setDelegate` must be called once.");
+  assert(delegate && "A delegate must not be `nullptr`.");
+  assert(!delegate_ && "`RunLoopObserver::setDelegate` must be called once.");
   delegate_ = delegate;
 }
 
@@ -48,7 +47,7 @@ void RunLoopObserver::activityDidChange(Activity activity) const noexcept {
     return;
   }
 
-  react_native_assert(
+  assert(
       !owner_.expired() &&
       "`owner_` is null. The caller must `lock` the owner and check it for being not null.");
 

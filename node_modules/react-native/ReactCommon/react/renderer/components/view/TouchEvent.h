@@ -16,6 +16,8 @@
 namespace facebook {
 namespace react {
 
+using Touches = std::unordered_set<Touch, Touch::Hasher, Touch::Comparator>;
+
 /*
  * Defines the `touchstart`, `touchend`, `touchmove`, and `touchcancel` event
  * types.

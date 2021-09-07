@@ -8,15 +8,14 @@
 package com.facebook.react.fabric;
 
 import android.annotation.SuppressLint;
+import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.facebook.common.logging.FLog;
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
 import com.facebook.react.bridge.NativeMap;
 import com.facebook.react.bridge.ReadableNativeMap;
+import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.common.mapbuffer.ReadableMapBuffer;
 import com.facebook.react.uimanager.StateWrapper;
 
 /**
@@ -29,10 +28,10 @@ public class StateWrapperImpl implements StateWrapper {
     FabricSoLoader.staticInit();
   }
 
-  private static final String TAG = "StateWrapperImpl";
-
   @DoNotStrip private final HybridData mHybridData;
-  private volatile boolean mDestroyed = false;
+
+  private Runnable mFailureCallback = null;
+  private int mUpdateStateId = 0;
 
   private static native HybridData initHybrid();
 
@@ -40,46 +39,34 @@ public class StateWrapperImpl implements StateWrapper {
     mHybridData = initHybrid();
   }
 
-  private native ReadableNativeMap getStateDataImpl();
-
-  private native ReadableMapBuffer getStateMapBufferDataImpl();
-
   @Override
-  @Nullable
-  public ReadableMapBuffer getStatDataMapBuffer() {
-    if (mDestroyed) {
-      FLog.e(TAG, "Race between StateWrapperImpl destruction and getState");
-      return null;
-    }
-    return getStateMapBufferDataImpl();
-  }
-
-  @Override
-  @Nullable
-  public ReadableNativeMap getStateData() {
-    if (mDestroyed) {
-      FLog.e(TAG, "Race between StateWrapperImpl destruction and getState");
-      return null;
-    }
-    return getStateDataImpl();
-  }
+  public native ReadableNativeMap getState();
 
   public native void updateStateImpl(@NonNull NativeMap map);
 
-  @Override
-  public void updateState(@NonNull WritableMap map) {
-    if (mDestroyed) {
-      FLog.e(TAG, "Race between StateWrapperImpl destruction and updateState");
-      return;
-    }
-    updateStateImpl((NativeMap) map);
-  }
+  public native void updateStateWithFailureCallbackImpl(
+      @NonNull NativeMap map, Object self, int updateStateId);
 
   @Override
-  public void destroyState() {
-    if (!mDestroyed) {
-      mDestroyed = true;
-      mHybridData.resetNative();
+  public void updateState(@NonNull WritableMap map, Runnable failureCallback) {
+    mUpdateStateId++;
+    mFailureCallback = failureCallback;
+    updateStateWithFailureCallbackImpl((NativeMap) map, this, mUpdateStateId);
+  }
+
+  @DoNotStrip
+  @AnyThread
+  public void updateStateFailed(int callbackRefId) {
+    // If the callback ref ID doesn't match the ID of the most-recent updateState call,
+    // then it's an outdated failure callback and we ignore it.
+    if (callbackRefId != mUpdateStateId) {
+      return;
+    }
+
+    final Runnable failureCallback = mFailureCallback;
+    mFailureCallback = null;
+    if (failureCallback != null) {
+      UiThreadUtil.runOnUiThread(failureCallback);
     }
   }
 }

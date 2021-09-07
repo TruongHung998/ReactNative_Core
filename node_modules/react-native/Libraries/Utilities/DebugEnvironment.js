@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
- * @flow strict
+ * @flow strict-local
  */
+
+'use strict';
 
 export let isAsyncDebugging: boolean = false;
 

@@ -891,12 +891,4 @@ public class NativeAnimatedModule extends NativeAnimatedModuleSpec
           }
         });
   }
-
-  @Override
-  public void invalidate() {
-    ReactApplicationContext context = getReactApplicationContextIfActiveOrWarn();
-    if (context != null) {
-      context.removeLifecycleEventListener(this);
-    }
-  }
 }

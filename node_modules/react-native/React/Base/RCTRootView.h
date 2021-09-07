@@ -50,18 +50,9 @@ extern
 /**
  * - Designated initializer -
  */
-- (instancetype)initWithFrame:(CGRect)frame
-                       bridge:(RCTBridge *)bridge
-                   moduleName:(NSString *)moduleName
-            initialProperties:(nullable NSDictionary *)initialProperties NS_DESIGNATED_INITIALIZER;
-
-/**
- * - Convenience initializer -
- * The frame will default to CGRectZero.
- */
 - (instancetype)initWithBridge:(RCTBridge *)bridge
                     moduleName:(NSString *)moduleName
-             initialProperties:(nullable NSDictionary *)initialProperties;
+             initialProperties:(nullable NSDictionary *)initialProperties NS_DESIGNATED_INITIALIZER;
 
 /**
  * - Convenience initializer -

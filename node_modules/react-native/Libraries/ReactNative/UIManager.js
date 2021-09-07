@@ -8,17 +8,16 @@
  * @format
  */
 
-import UIManagerInjection from './UIManagerInjection';
+'use strict';
+
 import type {Spec} from './NativeUIManager';
-import type {RootTag} from 'react-native/Libraries/Types/RootTagTypes';
 
 interface UIManagerJSInterface extends Spec {
   +getViewManagerConfig: (viewManagerName: string) => Object;
-  +hasViewManagerConfig: (viewManagerName: string) => boolean;
   +createView: (
     reactTag: ?number,
     viewName: string,
-    rootTag: RootTag,
+    rootTag: number,
     props: Object,
   ) => void;
   +updateView: (reactTag: number, viewName: string, props: Object) => void;
@@ -35,8 +34,6 @@ interface UIManagerJSInterface extends Spec {
 const UIManager: UIManagerJSInterface =
   global.RN$Bridgeless === true
     ? require('./DummyUIManager') // No UIManager in bridgeless mode
-    : UIManagerInjection.unstable_UIManager == null
-    ? require('./PaperUIManager')
-    : UIManagerInjection.unstable_UIManager;
+    : require('./PaperUIManager');
 
 module.exports = UIManager;

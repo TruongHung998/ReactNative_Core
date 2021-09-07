@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import fs from 'fs';
 
 import yargs from 'yargs';
@@ -21,7 +23,7 @@ import {PropsType, Type} from './Type';
 import {HeaderWriter} from './HeaderWriter';
 import {ImplementationWriter} from './ImplementationWriter';
 
-// $FlowFixMe[cannot-resolve-module] : this isn't a module, just a JSON file.
+// $FlowFixMe: this isn't a module, just a JSON file.
 const standard = require('devtools-protocol/json/js_protocol.json');
 
 const custom = require('../src/custom.json');

@@ -8,6 +8,8 @@
  * @flow
  */
 
+'use strict';
+
 const Platform = require('../../Utilities/Platform');
 const React = require('react');
 
@@ -19,6 +21,18 @@ import AndroidSwipeRefreshLayoutNativeComponent, {
 import PullToRefreshViewNativeComponent, {
   Commands as PullToRefreshCommands,
 } from './PullToRefreshViewNativeComponent';
+
+let RefreshLayoutConsts: any;
+if (Platform.OS === 'android') {
+  const AndroidSwipeRefreshLayout = require('../../ReactNative/UIManager').getViewManagerConfig(
+    'AndroidSwipeRefreshLayout',
+  );
+  RefreshLayoutConsts = AndroidSwipeRefreshLayout
+    ? AndroidSwipeRefreshLayout.Constants
+    : {SIZE: {}};
+} else {
+  RefreshLayoutConsts = {SIZE: {}};
+}
 
 type IOSProps = $ReadOnly<{|
   /**
@@ -49,9 +63,16 @@ type AndroidProps = $ReadOnly<{|
    */
   progressBackgroundColor?: ?ColorValue,
   /**
-   * Size of the refresh indicator.
+   * Size of the refresh indicator, see RefreshControl.SIZE.
    */
-  size?: ?('default' | 'large'),
+  size?: ?(
+    | typeof RefreshLayoutConsts.SIZE.DEFAULT
+    | typeof RefreshLayoutConsts.SIZE.LARGE
+  ),
+  /**
+   * Progress view top offset
+   */
+  progressViewOffset?: ?number,
 |}>;
 
 export type RefreshControlProps = $ReadOnly<{|
@@ -68,11 +89,6 @@ export type RefreshControlProps = $ReadOnly<{|
    * Whether the view should be indicating an active refresh.
    */
   refreshing: boolean,
-
-  /**
-   * Progress view top offset
-   */
-  progressViewOffset?: ?number,
 |}>;
 
 /**
@@ -121,6 +137,8 @@ export type RefreshControlProps = $ReadOnly<{|
  * in the `onRefresh` function otherwise the refresh indicator will stop immediately.
  */
 class RefreshControl extends React.Component<RefreshControlProps> {
+  static SIZE: any = RefreshLayoutConsts.SIZE;
+
   _nativeRef: ?React.ElementRef<
     | typeof PullToRefreshViewNativeComponent
     | typeof AndroidSwipeRefreshLayoutNativeComponent,
@@ -163,6 +181,7 @@ class RefreshControl extends React.Component<RefreshControlProps> {
         colors,
         progressBackgroundColor,
         size,
+        progressViewOffset,
         ...props
       } = this.props;
       return (

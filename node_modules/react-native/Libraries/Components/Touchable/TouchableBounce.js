@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import Pressability, {
   type PressabilityConfig,
 } from '../../Pressability/Pressability';

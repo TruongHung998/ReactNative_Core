@@ -5,40 +5,36 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
- * @flow strict
+ * @flow strict-local
  */
 
 'use strict';
 
-import {type EventSubscription} from './EventSubscription';
 import type EventSubscriptionVendor from './_EventSubscriptionVendor';
 
 /**
  * EventSubscription represents a subscription to a particular event. It can
  * remove its own subscription.
  */
-class _EventSubscription<EventDefinitions: {...}, K: $Keys<EventDefinitions>>
-  implements EventSubscription {
-  eventType: K;
+class EventSubscription {
+  eventType: string;
   key: number;
-  subscriber: EventSubscriptionVendor<EventDefinitions>;
-  listener: ?(...$ElementType<EventDefinitions, K>) => mixed;
-  context: ?$FlowFixMe;
+  subscriber: EventSubscriptionVendor;
 
   /**
    * @param {EventSubscriptionVendor} subscriber the subscriber that controls
    *   this subscription.
    */
-  constructor(subscriber: EventSubscriptionVendor<EventDefinitions>) {
+  constructor(subscriber: EventSubscriptionVendor) {
     this.subscriber = subscriber;
   }
 
   /**
    * Removes this subscription from the subscriber that controls it.
    */
-  remove(): void {
+  remove() {
     this.subscriber.removeSubscription(this);
   }
 }
 
-module.exports = _EventSubscription;
+module.exports = EventSubscription;

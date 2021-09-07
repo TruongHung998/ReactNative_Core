@@ -8,11 +8,14 @@
  * @flow
  */
 
+'use strict';
+
+const getNativeComponentAttributes = require('../ReactNative/getNativeComponentAttributes');
+
 import ReactNativeViewViewConfig from '../Components/View/ReactNativeViewViewConfig';
-import {type ViewConfig} from '../Renderer/shims/ReactNativeTypes';
+import type {ReactNativeBaseComponentViewConfig} from '../Renderer/shims/ReactNativeTypes';
 
 const IGNORED_KEYS = ['transform', 'hitSlop'];
-
 /**
  * The purpose of this function is to validate that the view config that
  * native exposes for a given view manager is the same as the view config
@@ -36,27 +39,28 @@ const IGNORED_KEYS = ['transform', 'hitSlop'];
  * single source of truth. I wonder if this message will still be here two
  * years from now...
  */
-export default function verifyComponentAttributeEquivalence(
-  nativeViewConfig: ViewConfig,
-  staticViewConfig: ViewConfig,
+function verifyComponentAttributeEquivalence(
+  componentName: string,
+  config: ReactNativeBaseComponentViewConfig<>,
 ) {
-  for (const prop of [
-    'validAttributes',
-    'bubblingEventTypes',
-    'directEventTypes',
-  ]) {
-    const diff = Object.keys(
-      lefthandObjectDiff(nativeViewConfig[prop], staticViewConfig[prop]),
-    );
+  if (!global.RN$Bridgeless) {
+    const nativeAttributes = getNativeComponentAttributes(componentName);
 
-    if (diff.length > 0) {
-      const name =
-        staticViewConfig.uiViewClassName ?? nativeViewConfig.uiViewClassName;
-      console.error(
-        `'${name}' has a view config that does not match native. ` +
-          `'${prop}' is missing: ${diff.join(', ')}`,
-      );
-    }
+    ['validAttributes', 'bubblingEventTypes', 'directEventTypes'].forEach(
+      prop => {
+        const diffKeys = Object.keys(
+          lefthandObjectDiff(nativeAttributes[prop], config[prop]),
+        );
+
+        if (diffKeys.length) {
+          console.error(
+            `${componentName} generated view config for ${prop} does not match native, missing: ${diffKeys.join(
+              ' ',
+            )}`,
+          );
+        }
+      },
+    );
   }
 }
 
@@ -99,7 +103,7 @@ export function lefthandObjectDiff(leftObj: Object, rightObj: Object): Object {
 }
 
 export function getConfigWithoutViewProps(
-  viewConfig: ViewConfig,
+  viewConfig: ReactNativeBaseComponentViewConfig<>,
   propName: string,
 ): {...} {
   if (!viewConfig[propName]) {
@@ -126,3 +130,5 @@ export function stringifyViewConfig(viewConfig: any): string {
     2,
   );
 }
+
+export default verifyComponentAttributeEquivalence;

@@ -7,11 +7,11 @@
 
 package com.facebook.react.uimanager;
 
-import androidx.annotation.Nullable;
 import androidx.core.util.Pools;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.events.Event;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 
 /** Event used to notify JS component about changes of its position or dimensions */
 public class OnLayoutEvent extends Event<OnLayoutEvent> {
@@ -21,18 +21,12 @@ public class OnLayoutEvent extends Event<OnLayoutEvent> {
 
   private int mX, mY, mWidth, mHeight;
 
-  @Deprecated
   public static OnLayoutEvent obtain(int viewTag, int x, int y, int width, int height) {
-    return obtain(-1, viewTag, x, y, width, height);
-  }
-
-  public static OnLayoutEvent obtain(
-      int surfaceId, int viewTag, int x, int y, int width, int height) {
     OnLayoutEvent event = EVENTS_POOL.acquire();
     if (event == null) {
       event = new OnLayoutEvent();
     }
-    event.init(surfaceId, viewTag, x, y, width, height);
+    event.init(viewTag, x, y, width, height);
     return event;
   }
 
@@ -43,13 +37,8 @@ public class OnLayoutEvent extends Event<OnLayoutEvent> {
 
   private OnLayoutEvent() {}
 
-  @Deprecated
   protected void init(int viewTag, int x, int y, int width, int height) {
-    init(-1, viewTag, x, y, width, height);
-  }
-
-  protected void init(int surfaceId, int viewTag, int x, int y, int width, int height) {
-    super.init(surfaceId, viewTag);
+    super.init(viewTag);
     mX = x;
     mY = y;
     mWidth = width;
@@ -61,9 +50,8 @@ public class OnLayoutEvent extends Event<OnLayoutEvent> {
     return "topLayout";
   }
 
-  @Nullable
   @Override
-  protected WritableMap getEventData() {
+  public void dispatch(RCTEventEmitter rctEventEmitter) {
     WritableMap layout = Arguments.createMap();
     layout.putDouble("x", PixelUtil.toDIPFromPixel(mX));
     layout.putDouble("y", PixelUtil.toDIPFromPixel(mY));
@@ -73,6 +61,7 @@ public class OnLayoutEvent extends Event<OnLayoutEvent> {
     WritableMap event = Arguments.createMap();
     event.putMap("layout", layout);
     event.putInt("target", getViewTag());
-    return event;
+
+    rctEventEmitter.receiveEvent(getViewTag(), getEventName(), event);
   }
 }

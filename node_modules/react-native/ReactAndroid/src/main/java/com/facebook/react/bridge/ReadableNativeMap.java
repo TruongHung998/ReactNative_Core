@@ -187,62 +187,12 @@ public class ReadableNativeMap extends NativeMap implements ReadableMap {
 
   @Override
   public @NonNull Iterator<Map.Entry<String, Object>> getEntryIterator() {
-    if (mKeys == null) {
-      mKeys = Assertions.assertNotNull(importKeys());
-    }
-    final String[] iteratorKeys = mKeys;
-    final Object[] iteratorValues = Assertions.assertNotNull(importValues());
-    return new Iterator<Map.Entry<String, Object>>() {
-      int currentIndex = 0;
-
-      @Override
-      public boolean hasNext() {
-        return currentIndex < iteratorKeys.length;
-      }
-
-      @Override
-      public Map.Entry<String, Object> next() {
-        final int index = currentIndex++;
-        return new Map.Entry<String, Object>() {
-          @Override
-          public String getKey() {
-            return iteratorKeys[index];
-          }
-
-          @Override
-          public Object getValue() {
-            return iteratorValues[index];
-          }
-
-          @Override
-          public Object setValue(Object value) {
-            throw new UnsupportedOperationException(
-                "Can't set a value while iterating over a ReadableNativeMap");
-          }
-        };
-      }
-    };
+    return getLocalMap().entrySet().iterator();
   }
 
   @Override
   public @NonNull ReadableMapKeySetIterator keySetIterator() {
-    if (mKeys == null) {
-      mKeys = Assertions.assertNotNull(importKeys());
-    }
-    final String[] iteratorKeys = mKeys;
-    return new ReadableMapKeySetIterator() {
-      int currentIndex = 0;
-
-      @Override
-      public boolean hasNextKey() {
-        return currentIndex < iteratorKeys.length;
-      }
-
-      @Override
-      public String nextKey() {
-        return iteratorKeys[currentIndex++];
-      }
-    };
+    return new ReadableNativeMapKeySetIterator(this);
   }
 
   @Override

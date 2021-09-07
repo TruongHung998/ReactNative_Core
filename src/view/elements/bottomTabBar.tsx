@@ -111,10 +111,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        height: _const.HEIGHT_SCREEN * 0.08,
         alignItems: 'center',
         marginBottom: -7,
         paddingBottom: 7,
+        marginRight: 3,
         justifyContent: 'center'
     },
     main_button: {
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginLeft: 10,
         height: 65,
-        width: _const.WIDTH_SCREEN * 0.16,
+        width: _const.WIDTH_SCREEN * 0.28,
         borderRadius: 15
     },
     container_bottom_tab: {

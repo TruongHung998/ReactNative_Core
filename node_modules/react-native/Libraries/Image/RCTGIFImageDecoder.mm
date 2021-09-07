@@ -47,12 +47,6 @@ RCT_EXPORT_MODULE()
   return ^{};
 }
 
-- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
-    (const facebook::react::ObjCTurboModule::InitParams &)params
-{
-  return nullptr;
-}
-
 @end
 
 Class RCTGIFImageDecoderCls() {

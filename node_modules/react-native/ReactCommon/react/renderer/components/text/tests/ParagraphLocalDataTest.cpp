@@ -9,7 +9,6 @@
 
 #include <assert.h>
 #include <gtest/gtest.h>
-#include <react/debug/react_native_assert.h>
 #include <react/renderer/attributedstring/AttributedString.h>
 #include <react/renderer/attributedstring/TextAttributes.h>
 #include <react/renderer/attributedstring/primitives.h>
@@ -41,14 +40,12 @@ TEST(ParagraphLocalDataTest, testSomething) {
 
   auto result = toDynamic(paragraphState)["attributedString"];
 
-  react_native_assert(result["string"] == fragment.string);
+  assert(result["string"] == fragment.string);
   auto textAttribute = result["fragments"][0]["textAttributes"];
-  react_native_assert(
-      textAttribute["foregroundColor"] == toDynamic(text.foregroundColor));
-  react_native_assert(textAttribute["opacity"] == text.opacity);
-  react_native_assert(textAttribute["fontStyle"] == toString(*text.fontStyle));
-  react_native_assert(
-      textAttribute["fontWeight"] == toString(*text.fontWeight));
+  assert(textAttribute["foregroundColor"] == toDynamic(text.foregroundColor));
+  assert(textAttribute["opacity"] == text.opacity);
+  assert(textAttribute["fontStyle"] == toString(*text.fontStyle));
+  assert(textAttribute["fontWeight"] == toString(*text.fontWeight));
 }
 
 #endif

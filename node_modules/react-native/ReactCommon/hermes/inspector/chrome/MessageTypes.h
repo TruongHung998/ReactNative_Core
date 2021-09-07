@@ -1,5 +1,5 @@
 // Copyright 2004-present Facebook. All Rights Reserved.
-// @generated SignedSource<<a541d174394c8959b9fb6a7c575e7040>>
+// @generated SignedSource<<e3e5526b8e266b560b9dc9e42cc0d6c5>>
 
 #pragma once
 
@@ -72,21 +72,10 @@ using UnserializableValue = std::string;
 namespace heapProfiler {
 struct AddHeapSnapshotChunkNotification;
 struct CollectGarbageRequest;
-struct GetHeapObjectIdRequest;
-struct GetHeapObjectIdResponse;
-struct GetObjectByHeapObjectIdRequest;
-struct GetObjectByHeapObjectIdResponse;
-using HeapSnapshotObjectId = std::string;
 struct HeapStatsUpdateNotification;
 struct LastSeenObjectIdNotification;
 struct ReportHeapSnapshotProgressNotification;
-struct SamplingHeapProfile;
-struct SamplingHeapProfileNode;
-struct SamplingHeapProfileSample;
-struct StartSamplingRequest;
 struct StartTrackingHeapObjectsRequest;
-struct StopSamplingRequest;
-struct StopSamplingResponse;
 struct StopTrackingHeapObjectsRequest;
 struct TakeHeapSnapshotRequest;
 } // namespace heapProfiler
@@ -112,13 +101,8 @@ struct RequestHandler {
   virtual void handle(const debugger::StepOutRequest &req) = 0;
   virtual void handle(const debugger::StepOverRequest &req) = 0;
   virtual void handle(const heapProfiler::CollectGarbageRequest &req) = 0;
-  virtual void handle(const heapProfiler::GetHeapObjectIdRequest &req) = 0;
-  virtual void handle(
-      const heapProfiler::GetObjectByHeapObjectIdRequest &req) = 0;
-  virtual void handle(const heapProfiler::StartSamplingRequest &req) = 0;
   virtual void handle(
       const heapProfiler::StartTrackingHeapObjectsRequest &req) = 0;
-  virtual void handle(const heapProfiler::StopSamplingRequest &req) = 0;
   virtual void handle(
       const heapProfiler::StopTrackingHeapObjectsRequest &req) = 0;
   virtual void handle(const heapProfiler::TakeHeapSnapshotRequest &req) = 0;
@@ -146,13 +130,8 @@ struct NoopRequestHandler : public RequestHandler {
   void handle(const debugger::StepOutRequest &req) override {}
   void handle(const debugger::StepOverRequest &req) override {}
   void handle(const heapProfiler::CollectGarbageRequest &req) override {}
-  void handle(const heapProfiler::GetHeapObjectIdRequest &req) override {}
-  void handle(
-      const heapProfiler::GetObjectByHeapObjectIdRequest &req) override {}
-  void handle(const heapProfiler::StartSamplingRequest &req) override {}
   void handle(
       const heapProfiler::StartTrackingHeapObjectsRequest &req) override {}
-  void handle(const heapProfiler::StopSamplingRequest &req) override {}
   void handle(
       const heapProfiler::StopTrackingHeapObjectsRequest &req) override {}
   void handle(const heapProfiler::TakeHeapSnapshotRequest &req) override {}
@@ -249,36 +228,6 @@ struct debugger::CallFrame : public Serializable {
   std::vector<debugger::Scope> scopeChain;
   runtime::RemoteObject thisObj{};
   folly::Optional<runtime::RemoteObject> returnValue;
-};
-
-struct heapProfiler::SamplingHeapProfileNode : public Serializable {
-  SamplingHeapProfileNode() = default;
-  explicit SamplingHeapProfileNode(const folly::dynamic &obj);
-  folly::dynamic toDynamic() const override;
-
-  runtime::CallFrame callFrame{};
-  double selfSize{};
-  int id{};
-  std::vector<heapProfiler::SamplingHeapProfileNode> children;
-};
-
-struct heapProfiler::SamplingHeapProfileSample : public Serializable {
-  SamplingHeapProfileSample() = default;
-  explicit SamplingHeapProfileSample(const folly::dynamic &obj);
-  folly::dynamic toDynamic() const override;
-
-  double size{};
-  int nodeId{};
-  double ordinal{};
-};
-
-struct heapProfiler::SamplingHeapProfile : public Serializable {
-  SamplingHeapProfile() = default;
-  explicit SamplingHeapProfile(const folly::dynamic &obj);
-  folly::dynamic toDynamic() const override;
-
-  heapProfiler::SamplingHeapProfileNode head{};
-  std::vector<heapProfiler::SamplingHeapProfileSample> samples;
 };
 
 struct runtime::ExecutionContextDescription : public Serializable {
@@ -475,37 +424,6 @@ struct heapProfiler::CollectGarbageRequest : public Request {
   void accept(RequestHandler &handler) const override;
 };
 
-struct heapProfiler::GetHeapObjectIdRequest : public Request {
-  GetHeapObjectIdRequest();
-  explicit GetHeapObjectIdRequest(const folly::dynamic &obj);
-
-  folly::dynamic toDynamic() const override;
-  void accept(RequestHandler &handler) const override;
-
-  runtime::RemoteObjectId objectId{};
-};
-
-struct heapProfiler::GetObjectByHeapObjectIdRequest : public Request {
-  GetObjectByHeapObjectIdRequest();
-  explicit GetObjectByHeapObjectIdRequest(const folly::dynamic &obj);
-
-  folly::dynamic toDynamic() const override;
-  void accept(RequestHandler &handler) const override;
-
-  heapProfiler::HeapSnapshotObjectId objectId{};
-  folly::Optional<std::string> objectGroup;
-};
-
-struct heapProfiler::StartSamplingRequest : public Request {
-  StartSamplingRequest();
-  explicit StartSamplingRequest(const folly::dynamic &obj);
-
-  folly::dynamic toDynamic() const override;
-  void accept(RequestHandler &handler) const override;
-
-  folly::Optional<double> samplingInterval;
-};
-
 struct heapProfiler::StartTrackingHeapObjectsRequest : public Request {
   StartTrackingHeapObjectsRequest();
   explicit StartTrackingHeapObjectsRequest(const folly::dynamic &obj);
@@ -514,14 +432,6 @@ struct heapProfiler::StartTrackingHeapObjectsRequest : public Request {
   void accept(RequestHandler &handler) const override;
 
   folly::Optional<bool> trackAllocations;
-};
-
-struct heapProfiler::StopSamplingRequest : public Request {
-  StopSamplingRequest();
-  explicit StopSamplingRequest(const folly::dynamic &obj);
-
-  folly::dynamic toDynamic() const override;
-  void accept(RequestHandler &handler) const override;
 };
 
 struct heapProfiler::StopTrackingHeapObjectsRequest : public Request {
@@ -632,30 +542,6 @@ struct debugger::SetInstrumentationBreakpointResponse : public Response {
   folly::dynamic toDynamic() const override;
 
   debugger::BreakpointId breakpointId{};
-};
-
-struct heapProfiler::GetHeapObjectIdResponse : public Response {
-  GetHeapObjectIdResponse() = default;
-  explicit GetHeapObjectIdResponse(const folly::dynamic &obj);
-  folly::dynamic toDynamic() const override;
-
-  heapProfiler::HeapSnapshotObjectId heapSnapshotObjectId{};
-};
-
-struct heapProfiler::GetObjectByHeapObjectIdResponse : public Response {
-  GetObjectByHeapObjectIdResponse() = default;
-  explicit GetObjectByHeapObjectIdResponse(const folly::dynamic &obj);
-  folly::dynamic toDynamic() const override;
-
-  runtime::RemoteObject result{};
-};
-
-struct heapProfiler::StopSamplingResponse : public Response {
-  StopSamplingResponse() = default;
-  explicit StopSamplingResponse(const folly::dynamic &obj);
-  folly::dynamic toDynamic() const override;
-
-  heapProfiler::SamplingHeapProfile profile{};
 };
 
 struct runtime::EvaluateResponse : public Response {

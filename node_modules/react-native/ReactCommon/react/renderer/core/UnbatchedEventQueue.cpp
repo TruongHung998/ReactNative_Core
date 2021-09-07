@@ -11,6 +11,8 @@ namespace facebook {
 namespace react {
 
 void UnbatchedEventQueue::onEnqueue() const {
+  EventQueue::onEnqueue();
+
   eventBeat_->request();
   eventBeat_->induce();
 }

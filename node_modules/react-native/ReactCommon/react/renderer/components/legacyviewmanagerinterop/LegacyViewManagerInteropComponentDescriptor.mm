@@ -8,7 +8,6 @@
 #include "LegacyViewManagerInteropComponentDescriptor.h"
 #include <React/RCTBridge.h>
 #include <React/RCTComponentData.h>
-#include <React/RCTEventDispatcher.h>
 #include <React/RCTModuleData.h>
 #include <React/RCTUIManager.h>
 #include <react/utils/ContextContainer.h>
@@ -60,21 +59,8 @@ static std::shared_ptr<void> const constructCoordinator(
   auto moduleName = moduleNameFromComponentName(componentName);
   Class module = NSClassFromString(RCTNSStringFromString(moduleName));
   assert(module);
-  auto optionalBridge = contextContainer->find<std::shared_ptr<void>>("Bridge");
-  RCTBridge *bridge;
-  if (optionalBridge) {
-    bridge = unwrapManagedObjectWeakly(optionalBridge.value());
-  }
-
-  auto optionalEventDispatcher = contextContainer->find<std::shared_ptr<void>>("RCTEventDispatcher");
-  RCTEventDispatcher *eventDispatcher;
-  if (optionalEventDispatcher) {
-    eventDispatcher = unwrapManagedObject(optionalEventDispatcher.value());
-  }
-
-  RCTComponentData *componentData = [[RCTComponentData alloc] initWithManagerClass:module
-                                                                            bridge:bridge
-                                                                   eventDispatcher:eventDispatcher];
+  RCTBridge *bridge = (RCTBridge *)unwrapManagedObjectWeakly(contextContainer->at<std::shared_ptr<void>>("Bridge"));
+  RCTComponentData *componentData = [[RCTComponentData alloc] initWithManagerClass:module bridge:bridge];
   return wrapManagedObject([[RCTLegacyViewManagerInteropCoordinator alloc] initWithComponentData:componentData
                                                                                           bridge:bridge]);
 }
@@ -95,7 +81,7 @@ ComponentName LegacyViewManagerInteropComponentDescriptor::getComponentName() co
   return std::static_pointer_cast<std::string const>(this->flavor_)->c_str();
 }
 
-void LegacyViewManagerInteropComponentDescriptor::adopt(ShadowNode::Unshared const &shadowNode) const
+void LegacyViewManagerInteropComponentDescriptor::adopt(ShadowNode::Unshared shadowNode) const
 {
   ConcreteComponentDescriptor::adopt(shadowNode);
 

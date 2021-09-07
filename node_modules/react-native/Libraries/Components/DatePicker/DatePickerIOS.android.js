@@ -8,10 +8,11 @@
  */
 
 'use strict';
-import * as React from 'react';
-import StyleSheet from '../../StyleSheet/StyleSheet';
-import Text from '../../Text/Text';
-import View from '../View/View';
+
+const React = require('react');
+const StyleSheet = require('../../StyleSheet/StyleSheet');
+const Text = require('../../Text/Text');
+const View = require('../View/View');
 
 class DummyDatePickerIOS extends React.Component {
   render() {

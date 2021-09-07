@@ -28,11 +28,17 @@ def detectCliPath(config) {
     if (config.cliPath) {
         return config.cliPath
     }
-    if (new File("${projectDir}/../../node_modules/react-native/cli.js").exists()) {
+
+    def cliPath = ["node", "-e", "console.log(require('react-native/cli').bin);"].execute([], projectDir).text.trim()
+
+    if (cliPath) {
+        return cliPath
+    } else if (new File("${projectDir}/../../node_modules/react-native/cli.js").exists()) {
         return "${projectDir}/../../node_modules/react-native/cli.js"
+    } else {
+        throw new Exception("Couldn't determine CLI location. " +
+            "Please set `project.ext.react.cliPath` to the path of the react-native cli.js");
     }
-    throw new Exception("Couldn't determine CLI location. " +
-             "Please set `project.ext.react.cliPath` to the path of the react-native cli.js");
 }
 
 def composeSourceMapsPath = config.composeSourceMapsPath ?: "node_modules/react-native/scripts/compose-source-maps.js"
@@ -153,21 +159,12 @@ afterEvaluate {
             def devEnabled = !(config."devDisabledIn${targetName}"
                 || targetName.toLowerCase().contains("release"))
 
-            def extraArgs = []
+            def extraArgs = config.extraPackagerArgs ?: [];
 
             if (bundleConfig) {
-                extraArgs.add("--config")
-                extraArgs.add(bundleConfig)
-            }
-
-            // Hermes doesn't require JS minification.
-            if (enableHermes && !devEnabled) {
-                extraArgs.add("--minify")
-                extraArgs.add("false")
-            }
-
-            if (config.extraPackagerArgs) {
-                extraArgs.addAll(config.extraPackagerArgs)
+                extraArgs = extraArgs.clone()
+                extraArgs.add("--config");
+                extraArgs.add(bundleConfig);
             }
 
             commandLine(*execCommand, bundleCommand, "--platform", "android", "--dev", "${devEnabled}",
@@ -318,7 +315,7 @@ afterEvaluate {
         // Delete the VM related libraries that this build doesn't need.
         // The application can manage this manually by setting 'enableVmCleanup: false'
         //
-        // This should really be done by packaging all Hermes related libs into
+        // This should really be done by packaging all Hermes releated libs into
         // two separate HermesDebug and HermesRelease AARs, but until then we'll
         // kludge it by deleting the .so files out of the /transforms/ directory.
         def isRelease = targetName.toLowerCase().contains("release")

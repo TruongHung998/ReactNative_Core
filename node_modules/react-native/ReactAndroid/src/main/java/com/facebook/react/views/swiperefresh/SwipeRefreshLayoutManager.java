@@ -88,19 +88,9 @@ public class SwipeRefreshLayoutManager extends ViewGroupManager<ReactSwipeRefres
   }
 
   // TODO(T46143833): Remove this method once the 'size' prop has been migrated to String in JS.
+  @Override
   public void setSize(ReactSwipeRefreshLayout view, int value) {
     view.setSize(value);
-  }
-
-  @Override
-  public void setSize(ReactSwipeRefreshLayout view, String size) {
-    if (size == null || size.equals("default")) {
-      view.setSize(SwipeRefreshLayout.DEFAULT);
-    } else if (size.equals("large")) {
-      view.setSize(SwipeRefreshLayout.LARGE);
-    } else {
-      throw new IllegalArgumentException("Size must be 'default' or 'large', received: " + size);
-    }
   }
 
   // This prop temporarily takes both 0 and 1 as well as 'default' and 'large'.
@@ -113,7 +103,15 @@ public class SwipeRefreshLayoutManager extends ViewGroupManager<ReactSwipeRefres
     } else if (size.getType() == ReadableType.Number) {
       view.setSize(size.asInt());
     } else if (size.getType() == ReadableType.String) {
-      setSize(view, size.asString());
+      final String sizeStr = size.asString();
+      if (sizeStr.equals("default")) {
+        view.setSize(SwipeRefreshLayout.DEFAULT);
+      } else if (sizeStr.equals("large")) {
+        view.setSize(SwipeRefreshLayout.LARGE);
+      } else {
+        throw new IllegalArgumentException(
+            "Size must be 'default' or 'large', received: " + sizeStr);
+      }
     } else {
       throw new IllegalArgumentException("Size must be 'default' or 'large'");
     }
@@ -146,8 +144,7 @@ public class SwipeRefreshLayoutManager extends ViewGroupManager<ReactSwipeRefres
             EventDispatcher eventDispatcher =
                 UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.getId());
             if (eventDispatcher != null) {
-              eventDispatcher.dispatchEvent(
-                  new RefreshEvent(UIManagerHelper.getSurfaceId(view), view.getId()));
+              eventDispatcher.dispatchEvent(new RefreshEvent(view.getId()));
             }
           }
         });

@@ -16,7 +16,6 @@ import com.facebook.react.uimanager.PixelUtil;
 /** Class responsible for generating catalyst touch events based on android {@link MotionEvent}. */
 public class TouchesHelper {
 
-  public static final String TARGET_SURFACE_KEY = "targetSurface";
   public static final String TARGET_KEY = "target";
   public static final String CHANGED_TOUCHES_KEY = "changedTouches";
   public static final String TOUCHES_KEY = "touches";
@@ -35,8 +34,7 @@ public class TouchesHelper {
    * given {@param event} instance. This method use {@param reactTarget} parameter to set as a
    * target view id associated with current gesture.
    */
-  private static WritableArray createsPointersArray(
-      int surfaceId, int reactTarget, TouchEvent event) {
+  private static WritableArray createsPointersArray(int reactTarget, TouchEvent event) {
     WritableArray touches = Arguments.createArray();
     MotionEvent motionEvent = event.getMotionEvent();
 
@@ -62,9 +60,8 @@ public class TouchesHelper {
       float locationY = motionEvent.getY(index) - targetViewCoordinateY;
       touch.putDouble(LOCATION_X_KEY, PixelUtil.toDIPFromPixel(locationX));
       touch.putDouble(LOCATION_Y_KEY, PixelUtil.toDIPFromPixel(locationY));
-      touch.putInt(TARGET_SURFACE_KEY, surfaceId);
       touch.putInt(TARGET_KEY, reactTarget);
-      touch.putDouble(TIMESTAMP_KEY, event.getUnixTimestampMs());
+      touch.putDouble(TIMESTAMP_KEY, event.getTimestampMs());
       touch.putDouble(POINTER_IDENTIFIER_KEY, motionEvent.getPointerId(index));
       touches.pushMap(touch);
     }
@@ -84,10 +81,10 @@ public class TouchesHelper {
   public static void sendTouchEvent(
       RCTEventEmitter rctEventEmitter,
       TouchEventType type,
-      int surfaceId,
       int reactTarget,
       TouchEvent touchEvent) {
-    WritableArray pointers = createsPointersArray(surfaceId, reactTarget, touchEvent);
+
+    WritableArray pointers = createsPointersArray(reactTarget, touchEvent);
     MotionEvent motionEvent = touchEvent.getMotionEvent();
 
     // For START and END events send only index of the pointer that is associated with that event

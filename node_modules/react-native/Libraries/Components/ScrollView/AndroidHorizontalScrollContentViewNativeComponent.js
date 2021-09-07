@@ -5,19 +5,36 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
- * @flow strict-local
+ * @flow
  */
 
-import codegenNativeComponent from '../../Utilities/codegenNativeComponent';
+'use strict';
+
+import registerGeneratedViewConfig from '../../Utilities/registerGeneratedViewConfig';
+import requireNativeComponent from '../../ReactNative/requireNativeComponent';
+
 import type {HostComponent} from '../../Renderer/shims/ReactNativeTypes';
 import type {ViewProps} from '../View/ViewPropTypes';
 
-type NativeProps = $ReadOnly<{|
-  ...ViewProps,
-|}>;
+const AndroidHorizontalScrollContentViewViewConfig = {
+  uiViewClassName: 'AndroidHorizontalScrollContentView',
+  bubblingEventTypes: {},
+  directEventTypes: {},
+  validAttributes: {},
+};
 
-type NativeType = HostComponent<NativeProps>;
+let AndroidHorizontalScrollContentViewNativeComponent;
+if (global.RN$Bridgeless) {
+  registerGeneratedViewConfig(
+    'AndroidHorizontalScrollContentView',
+    AndroidHorizontalScrollContentViewViewConfig,
+  );
+  AndroidHorizontalScrollContentViewNativeComponent =
+    'AndroidHorizontalScrollContentView';
+} else {
+  AndroidHorizontalScrollContentViewNativeComponent = requireNativeComponent<ViewProps>(
+    'AndroidHorizontalScrollContentView',
+  );
+}
 
-export default (codegenNativeComponent<NativeProps>(
-  'AndroidHorizontalScrollContentView',
-): NativeType);
+export default ((AndroidHorizontalScrollContentViewNativeComponent: any): HostComponent<ViewProps>);

@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import * as React from 'react';
 
 import type {Int32} from '../../Types/CodegenTypes';

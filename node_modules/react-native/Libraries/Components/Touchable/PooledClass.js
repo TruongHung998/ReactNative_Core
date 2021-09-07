@@ -9,7 +9,8 @@
  */
 
 'use strict';
-import invariant from 'invariant';
+
+const invariant = require('invariant');
 
 /**
  * Static poolers. Several custom versions for each potential number of

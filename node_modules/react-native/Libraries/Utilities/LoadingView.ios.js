@@ -8,6 +8,8 @@
  * @flow strict-local
  */
 
+'use strict';
+
 import processColor from '../StyleSheet/processColor';
 import NativeDevLoadingView from './NativeDevLoadingView';
 import Appearance from './Appearance';

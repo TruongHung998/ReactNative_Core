@@ -104,13 +104,10 @@ static void appendEdgeIfNotUndefined(
     const string& str,
     const YGStyle::Edges& edges,
     const YGEdge edge) {
-  // TODO: this doesn't take RTL / YGEdgeStart / YGEdgeEnd into account
-  auto value = (edge == YGEdgeLeft || edge == YGEdgeRight)
-      ? YGNode::computeEdgeValueForRow(
-            edges, edge, edge, detail::CompactValue::ofUndefined())
-      : YGNode::computeEdgeValueForColumn(
-            edges, edge, detail::CompactValue::ofUndefined());
-  appendNumberIfNotUndefined(base, str, value);
+  appendNumberIfNotUndefined(
+      base,
+      str,
+      YGComputedEdgeValue(edges, edge, detail::CompactValue::ofUndefined()));
 }
 
 void YGNodeToString(

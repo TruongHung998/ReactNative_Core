@@ -33,9 +33,4 @@
   [self.alertWindow.rootViewController presentViewController:self animated:animated completion:completion];
 }
 
-- (void)hide
-{
-  _alertWindow = nil;
-}
-
 @end

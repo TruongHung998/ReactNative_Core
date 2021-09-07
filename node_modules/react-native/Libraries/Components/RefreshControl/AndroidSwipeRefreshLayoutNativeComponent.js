@@ -8,6 +8,8 @@
  * @flow strict-local
  */
 
+'use strict';
+
 import * as React from 'react';
 
 import codegenNativeCommands from 'react-native/Libraries/Utilities/codegenNativeCommands';
@@ -39,9 +41,17 @@ type NativeProps = $ReadOnly<{|
    */
   progressBackgroundColor?: ?ColorValue,
   /**
-   * Size of the refresh indicator.
+   * Size of the refresh indicator, see RefreshControl.SIZE.
+   *
+   * This type isn't currently accurate. It really is specific numbers
+   * hard coded in the Android platform.
+   *
+   * Also, 1 isn't actually a safe default. We are able to set this here
+   * because native code isn't currently consuming the generated artifact.
+   * This will end up being
+   * size?: WithDefault<'default' | 'large', 'default'>,
    */
-  size?: WithDefault<'default' | 'large', 'default'>,
+  size?: WithDefault<Int32, 1>,
   /**
    * Progress view top offset
    */

@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import Platform from '../Utilities/Platform';
 const ReactNativeVersion = require('./ReactNativeVersion');
 

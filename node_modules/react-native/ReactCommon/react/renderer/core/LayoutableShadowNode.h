@@ -13,7 +13,6 @@
 #include <vector>
 
 #include <better/small_vector.h>
-#include <react/debug/react_native_assert.h>
 #include <react/renderer/core/LayoutMetrics.h>
 #include <react/renderer/core/ShadowNode.h>
 #include <react/renderer/core/ShadowNodeFragment.h>
@@ -124,6 +123,21 @@ class LayoutableShadowNode : public ShadowNode {
   virtual Point getContentOriginOffset() const;
 
   /*
+   * Returns layout metrics relatively to the given ancestor node.
+   * Uses `computeRelativeLayoutMetrics()` under the hood.
+   */
+  LayoutMetrics getRelativeLayoutMetrics(
+      ShadowNodeFamily const &descendantNodeFamily,
+      LayoutInspectingPolicy policy) const;
+
+  /*
+   * Returns layout metrics relatively to the given ancestor node.
+   */
+  LayoutMetrics getRelativeLayoutMetrics(
+      LayoutableShadowNode const &ancestorLayoutableShadowNode,
+      LayoutInspectingPolicy policy) const;
+
+  /*
    * Sets layout metrics for the shadow node.
    */
   void setLayoutMetrics(LayoutMetrics layoutMetrics);
@@ -170,10 +184,10 @@ inline LayoutableShadowNode const &traitCast<LayoutableShadowNode const &>(
     ShadowNode const &shadowNode) {
   bool castable =
       shadowNode.getTraits().check(ShadowNodeTraits::Trait::LayoutableKind);
-  react_native_assert(
+  assert(
       castable ==
       (dynamic_cast<LayoutableShadowNode const *>(&shadowNode) != nullptr));
-  react_native_assert(castable);
+  assert(castable);
   (void)castable;
   return static_cast<LayoutableShadowNode const &>(shadowNode);
 }
@@ -186,7 +200,7 @@ inline LayoutableShadowNode const *traitCast<LayoutableShadowNode const *>(
   }
   bool castable =
       shadowNode->getTraits().check(ShadowNodeTraits::Trait::LayoutableKind);
-  react_native_assert(
+  assert(
       castable ==
       (dynamic_cast<LayoutableShadowNode const *>(shadowNode) != nullptr));
   if (!castable) {

@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import Platform from '../../Utilities/Platform';
 import * as React from 'react';
 import StatusBar from '../StatusBar/StatusBar';

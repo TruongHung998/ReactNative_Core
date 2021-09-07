@@ -44,10 +44,9 @@ NSString *const RCTContentDidAppearNotification = @"RCTContentDidAppearNotificat
   CGSize _intrinsicContentSize;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-                       bridge:(RCTBridge *)bridge
-                   moduleName:(NSString *)moduleName
-            initialProperties:(NSDictionary *)initialProperties
+- (instancetype)initWithBridge:(RCTBridge *)bridge
+                    moduleName:(NSString *)moduleName
+             initialProperties:(NSDictionary *)initialProperties
 {
   RCTAssertMainQueue();
   RCTAssert(bridge, @"A bridge instance is required to create an RCTRootView");
@@ -58,7 +57,7 @@ NSString *const RCTContentDidAppearNotification = @"RCTContentDidAppearNotificat
     [bridge.performanceLogger markStartForTag:RCTPLTTI];
   }
 
-  if (self = [super initWithFrame:frame]) {
+  if (self = [super initWithFrame:CGRectZero]) {
     self.backgroundColor = [UIColor whiteColor];
 
     _bridge = bridge;
@@ -94,13 +93,6 @@ NSString *const RCTContentDidAppearNotification = @"RCTContentDidAppearNotificat
   RCT_PROFILE_END_EVENT(RCTProfileTagAlways, @"");
 
   return self;
-}
-
-- (instancetype)initWithBridge:(RCTBridge *)bridge
-                    moduleName:(NSString *)moduleName
-             initialProperties:(NSDictionary *)initialProperties
-{
-  return [self initWithFrame:CGRectZero bridge:bridge moduleName:moduleName initialProperties:initialProperties];
 }
 
 - (instancetype)initWithBundleURL:(NSURL *)bundleURL

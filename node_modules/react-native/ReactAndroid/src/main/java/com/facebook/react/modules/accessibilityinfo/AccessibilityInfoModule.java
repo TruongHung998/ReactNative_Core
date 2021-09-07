@@ -56,7 +56,7 @@ public class AccessibilityInfoModule extends NativeAccessibilityInfoSpec
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
-          if (getReactApplicationContext().hasActiveReactInstance()) {
+          if (getReactApplicationContext().hasActiveCatalystInstance()) {
             AccessibilityInfoModule.this.updateAndSendReduceMotionChangeEvent();
           }
         }
@@ -67,7 +67,6 @@ public class AccessibilityInfoModule extends NativeAccessibilityInfoSpec
   private final ContentResolver mContentResolver;
   private boolean mReduceMotionEnabled = false;
   private boolean mTouchExplorationEnabled = false;
-  private int mRecommendedTimeout;
 
   private static final String REDUCE_MOTION_EVENT_NAME = "reduceMotionDidChange";
   private static final String TOUCH_EXPLORATION_EVENT_NAME = "touchExplorationDidChange";
@@ -164,13 +163,9 @@ public class AccessibilityInfoModule extends NativeAccessibilityInfoSpec
   }
 
   @Override
-  public void invalidate() {
-    super.invalidate();
-
-    ReactApplicationContext applicationContext = getReactApplicationContextIfActiveOrWarn();
-    if (applicationContext != null) {
-      applicationContext.removeLifecycleEventListener(this);
-    }
+  public void onCatalystInstanceDestroy() {
+    super.onCatalystInstanceDestroy();
+    getReactApplicationContext().removeLifecycleEventListener(this);
   }
 
   @Override
@@ -193,17 +188,5 @@ public class AccessibilityInfoModule extends NativeAccessibilityInfoSpec
   @Override
   public void setAccessibilityFocus(double reactTag) {
     // iOS only
-  }
-
-  @Override
-  public void getRecommendedTimeoutMillis(double originalTimeout, Callback successCallback) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-      successCallback.invoke((int) originalTimeout);
-      return;
-    }
-    mRecommendedTimeout =
-        mAccessibilityManager.getRecommendedTimeoutMillis(
-            (int) originalTimeout, AccessibilityManager.FLAG_CONTENT_CONTROLS);
-    successCallback.invoke(mRecommendedTimeout);
   }
 }

@@ -5,7 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {Type} from '../src/Type.js';
+'use strict';
+
+import { Type } from '../src/Type.js';
 
 test('parses primitive type', () => {
   let obj = {

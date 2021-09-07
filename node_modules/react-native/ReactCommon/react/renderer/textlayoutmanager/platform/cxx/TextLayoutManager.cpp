@@ -13,29 +13,15 @@ namespace react {
 TextLayoutManager::~TextLayoutManager() {}
 
 void *TextLayoutManager::getNativeTextLayoutManager() const {
-  return (void *)this;
+  return self_;
 }
 
 TextMeasurement TextLayoutManager::measure(
     AttributedStringBox attributedStringBox,
     ParagraphAttributes paragraphAttributes,
     LayoutConstraints layoutConstraints) const {
-  TextMeasurement::Attachments attachments;
-  for (auto const &fragment : attributedStringBox.getValue().getFragments()) {
-    if (fragment.isAttachment()) {
-      attachments.push_back(
-          TextMeasurement::Attachment{{{0, 0}, {0, 0}}, false});
-    }
-  }
-  return TextMeasurement{{0, 0}, attachments};
+  return TextMeasurement{{0, 0}, {}};
 }
-
-LinesMeasurements TextLayoutManager::measureLines(
-    AttributedString attributedString,
-    ParagraphAttributes paragraphAttributes,
-    Size size) const {
-  return {};
-};
 
 } // namespace react
 } // namespace facebook

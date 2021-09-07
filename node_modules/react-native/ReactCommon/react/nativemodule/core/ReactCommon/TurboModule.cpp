@@ -32,7 +32,7 @@ jsi::Value TurboModule::get(
   return jsi::Function::createFromHostFunction(
       runtime,
       propName,
-      static_cast<unsigned int>(meta.argCount),
+      meta.argCount,
       [this, meta](
           facebook::jsi::Runtime &rt,
           const facebook::jsi::Value &thisVal,

@@ -41,7 +41,7 @@ static UIView<RCTBackedTextInputViewProtocol> *_Nullable RCTFindTextInputWithNat
 }
 
 @implementation RCTInputAccessoryComponentView {
-  InputAccessoryShadowNode::ConcreteState::Shared _state;
+  InputAccessoryShadowNode::ConcreteStateTeller _stateTeller;
   RCTInputAccessoryContentView *_contentView;
   RCTSurfaceTouchHandler *_touchHandler;
   UIView<RCTBackedTextInputViewProtocol> __weak *_textInput;
@@ -118,16 +118,15 @@ static UIView<RCTBackedTextInputViewProtocol> *_Nullable RCTFindTextInputWithNat
   self.hidden = true;
 }
 
-- (void)updateState:(const facebook::react::State::Shared &)state
-           oldState:(const facebook::react::State::Shared &)oldState
+- (void)updateState:(State::Shared const &)state oldState:(State::Shared const &)oldState
 {
-  _state = std::static_pointer_cast<InputAccessoryShadowNode::ConcreteState const>(state);
-  CGSize oldScreenSize = RCTCGSizeFromSize(_state->getData().viewportSize);
+  _stateTeller.setConcreteState(state);
+  CGSize oldViewportSize = RCTCGSizeFromSize(_stateTeller.getData().value().viewportSize);
   CGSize viewportSize = RCTViewportSize();
   viewportSize.height = std::nan("");
-  if (oldScreenSize.width != viewportSize.width) {
+  if (oldViewportSize.width != viewportSize.width) {
     auto stateData = InputAccessoryState{RCTSizeFromCGSize(viewportSize)};
-    _state->updateState(std::move(stateData));
+    _stateTeller.updateState(std::move(stateData));
   }
 }
 
@@ -142,7 +141,7 @@ static UIView<RCTBackedTextInputViewProtocol> *_Nullable RCTFindTextInputWithNat
 - (void)prepareForRecycle
 {
   [super prepareForRecycle];
-  _state.reset();
+  _stateTeller.invalidate();
   _textInput = nil;
 }
 

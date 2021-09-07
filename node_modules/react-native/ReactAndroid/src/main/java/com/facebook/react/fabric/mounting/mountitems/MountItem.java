@@ -7,7 +7,6 @@
 
 package com.facebook.react.fabric.mounting.mountitems;
 
-import androidx.annotation.AnyThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 import com.facebook.react.fabric.mounting.MountingManager;
@@ -17,7 +16,4 @@ public interface MountItem {
   /** Execute this {@link MountItem} into the operation queue received by parameter. */
   @UiThread
   void execute(@NonNull MountingManager mountingManager);
-
-  @AnyThread
-  int getSurfaceId();
 }

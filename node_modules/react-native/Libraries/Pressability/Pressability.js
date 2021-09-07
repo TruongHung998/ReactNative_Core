@@ -8,6 +8,8 @@
  * @format
  */
 
+'use strict';
+
 import {isHoverEnabled} from './HoverState';
 import invariant from 'invariant';
 import SoundManager from '../Components/Sound/SoundManager';
@@ -18,8 +20,6 @@ import type {
   PressEvent,
   MouseEvent,
 } from '../Types/CoreEventTypes';
-import PressabilityPerformanceEventEmitter from './PressabilityPerformanceEventEmitter.js';
-import {type PressabilityTouchSignal as TouchSignal} from './PressabilityTypes.js';
 import Platform from '../Utilities/Platform';
 import UIManager from '../ReactNative/UIManager';
 import type {HostComponent} from '../Renderer/shims/ReactNativeTypes';
@@ -175,6 +175,15 @@ type TouchState =
   | 'RESPONDER_ACTIVE_LONG_PRESS_IN'
   | 'RESPONDER_ACTIVE_LONG_PRESS_OUT'
   | 'ERROR';
+
+type TouchSignal =
+  | 'DELAY'
+  | 'RESPONDER_GRANT'
+  | 'RESPONDER_RELEASE'
+  | 'RESPONDER_TERMINATED'
+  | 'ENTER_PRESS_RECT'
+  | 'LEAVE_PRESS_RECT'
+  | 'LONG_PRESS_DETECTED';
 
 const Transitions = Object.freeze({
   NOT_RESPONDER: {
@@ -482,9 +491,8 @@ export default class Pressability {
       },
 
       onResponderMove: (event: PressEvent): void => {
-        const {onPressMove} = this._config;
-        if (onPressMove != null) {
-          onPressMove(event);
+        if (this._config.onPressMove != null) {
+          this._config.onPressMove(event);
         }
 
         // Region may not have finished being measured, yet.
@@ -536,8 +544,8 @@ export default class Pressability {
       },
 
       onClick: (event: PressEvent): void => {
-        const {onPress, disabled} = this._config;
-        if (onPress != null && disabled !== true) {
+        const {onPress} = this._config;
+        if (onPress != null) {
           onPress(event);
         }
       },
@@ -623,19 +631,6 @@ export default class Pressability {
         : '<<host component>>',
     );
     if (prevState !== nextState) {
-      // Especially on iOS, not all events have timestamps associated.
-      // For telemetry purposes, this doesn't matter too much, as long as *some* do.
-      // Since the native timestamp is integral for logging telemetry, just skip
-      // events if they don't have a timestamp attached.
-      if (event.nativeEvent.timestamp != null) {
-        PressabilityPerformanceEventEmitter.emitEvent(() => {
-          return {
-            signal,
-            touchDelayMs: Date.now() - event.nativeEvent.timestamp,
-          };
-        });
-      }
-
       this._performTransitionSideEffects(prevState, nextState, signal, event);
       this._touchState = nextState;
     }
@@ -660,10 +655,10 @@ export default class Pressability {
       prevState === 'NOT_RESPONDER' &&
       nextState === 'RESPONDER_INACTIVE_PRESS_IN';
 
-    const isActivationTransition =
+    const isActivationTransiton =
       !isActivationSignal(prevState) && isActivationSignal(nextState);
 
-    if (isInitialTransition || isActivationTransition) {
+    if (isInitialTransition || isActivationTransiton) {
       this._measureResponderRegion();
     }
 
@@ -709,8 +704,11 @@ export default class Pressability {
 
   _activate(event: PressEvent): void {
     const {onPressIn} = this._config;
-    const {pageX, pageY} = getTouchFromPressEvent(event);
-    this._touchActivatePosition = {pageX, pageY};
+    const touch = getTouchFromPressEvent(event);
+    this._touchActivatePosition = {
+      pageX: touch.pageX,
+      pageY: touch.pageY,
+    };
     this._touchActivateTime = Date.now();
     if (onPressIn != null) {
       onPressIn(event);
