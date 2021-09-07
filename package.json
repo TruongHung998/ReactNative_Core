@@ -24,6 +24,7 @@
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/stack": "^6.0.7",
     "@types/react-native-scrollable-tab-view": "^0.10.1",
+    "immutable": "^4.0.0-rc.14",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "react": "^17.0.1",

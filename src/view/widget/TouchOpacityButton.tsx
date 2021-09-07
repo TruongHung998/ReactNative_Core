@@ -1,6 +1,5 @@
 import React, {memo, useCallback} from "react";
-import {StyleProp, StyleSheet, TouchableOpacity, TouchableOpacityProps, ViewStyle} from "react-native";
-import {LAYOUT, TEXT} from "../../styles/global";
+import {StyleProp, TouchableOpacity, TouchableOpacityProps, ViewStyle} from "react-native";
 
 interface TouchOpacityButtonProps {
     borderRadius?: number,
@@ -34,15 +33,5 @@ const TouchOpacityButton = memo(({
             disabled={disabled}
         />
     )
-})
-const styles = StyleSheet.create({
-    container: {
-        borderRadius: 30,
-        ...LAYOUT.row_space_between
-    },
-    label: {
-        ...TEXT.button_big,
-        fontSize: 15,
-    }
 })
 export default TouchOpacityButton
