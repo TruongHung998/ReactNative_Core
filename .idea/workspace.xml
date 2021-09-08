@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91a2782b-bd4e-47df-9b58-e59d2b15f70a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/network/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/network/net/NetworkUtils.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/network/net/ServerPath.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/network/net/api_example/apiExample.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/navigators/tabExample1Navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigators/tabExample1Navigation.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/redux/actions/appAction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/redux/actions/appAction.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/shared/redux/reducers/appReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/redux/reducers/appReducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utilities/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/screen/home2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screen/home2.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/react/base/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/com/react/base/MainApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/gradle.properties" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +95,7 @@
       <workItem from="1631016914910" duration="3813000" />
       <workItem from="1631021434374" duration="12403000" />
       <workItem from="1631066436054" duration="26000" />
-      <workItem from="1631112534025" duration="964000" />
+      <workItem from="1631112534025" duration="4649000" />
     </task>
     <servers />
   </component>
