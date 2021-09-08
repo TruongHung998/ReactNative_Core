@@ -1,6 +1,5 @@
 import React, {memo} from "react";
 import {SafeAreaView, StyleSheet, Text, View} from "react-native";
-import BaseHeaderHome from "../elements/header/baseHeader";
 import {COLOR_ORANGE} from "../../constants/color";
 import TabBarScroll from "../widget/tab_bar_scroll";
 import _const from '../../constants/common'

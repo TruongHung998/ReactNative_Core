@@ -25,19 +25,4 @@ export default Object.freeze({
         }
         return false
     },
-    getAccessToken: () => {
-        return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsImlhdCI6MTYyNzg5OTU2NCwiZXhwIjoxNjMwNDkxNTY0fQ.Q7Tmww6_buoZBnaiYZIzqMQ_nsGOEPOF49wjlrrOAOw'
-    },
-    getDomainImage: () => {
-        switch (Config.ENV) {
-            case 'ALPHA':
-                return 'https://alpha.foodmood.com.vn';
-            case 'BETA':
-                return 'https://beta.foodmood.com.vn';
-            case 'PRODUCTION':
-                return 'https://foodmood.com.vn';
-            default:
-                return '';
-        }
-    }
 })

@@ -5,7 +5,7 @@ import {AppActionTypes, CLEAR, Receive, RECEIVE} from "../actionTypes/appActionT
 export interface AppStateType {
     id: number,
     name: string,
-    Form: ExampleForm
+    Form: ExampleForm | null
 }
 
 const initialState: AppStateType = {

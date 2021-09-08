@@ -2,9 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91a2782b-bd4e-47df-9b58-e59d2b15f70a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/view/widget/tab_bar_scroll.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/network/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/network/net/NetworkUtils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/network/net/ServerPath.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/network/net/api_example/apiExample.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/navigators/tabExample1Navigation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/navigators/tabExample1Navigation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/redux/actions/appAction.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/redux/actions/appAction.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/shared/redux/reducers/appReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/shared/redux/reducers/appReducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utilities/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utilities/utils.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/screen/home2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/screen/home2.tsx" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,22 +46,23 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/view/widget" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/network/net" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/network/net" />
+      <recent name="$PROJECT_DIR$/src/view/widget" />
+      <recent name="$PROJECT_DIR$/src/assets/images/icon" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/view/widget" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/assets/images/icon" />
       <recent name="$PROJECT_DIR$/src" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/view/widget" />
-      <recent name="$PROJECT_DIR$/src/assets/images/icon" />
-      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -90,7 +97,9 @@
       <workItem from="1630998708522" duration="144000" />
       <workItem from="1630999195300" duration="1950000" />
       <workItem from="1631016914910" duration="3813000" />
-      <workItem from="1631021434374" duration="11366000" />
+      <workItem from="1631021434374" duration="12403000" />
+      <workItem from="1631066436054" duration="26000" />
+      <workItem from="1631112534025" duration="964000" />
     </task>
     <servers />
   </component>
