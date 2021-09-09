@@ -1,6 +1,8 @@
 package com.react.base;
 
 import com.facebook.react.ReactActivity;
+import android.os.Bundle;
+import com.zoontek.rnbootsplash.RNBootSplash; // <- add this necessary import
 
 public class MainActivity extends ReactActivity {
 
@@ -11,5 +13,11 @@ public class MainActivity extends ReactActivity {
   @Override
   protected String getMainComponentName() {
     return "BaseReactNative";
+  }
+
+  @Override
+  protected void onCreate(Bundle savaInstanceState){
+    super.onCreate(savaInstanceState);
+    RNBootSplash.init(R.drawable.bootsplash, MainActivity.this); // display the generated bootsplash.xml drawable over our MainActivity
   }
 }

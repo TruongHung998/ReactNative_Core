@@ -17,6 +17,7 @@ import store from './shared/redux/store/index';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import RootNavigation from "./navigators/rootNavigation";
+import RNBootSplash from "react-native-bootsplash";
 
 let reduxPersistStore;
 
@@ -42,6 +43,20 @@ const App = memo(() => {
     useEffect(() => {
         setNavigator(navigationRef)
         reduxPersistStore = persistStore(store, null, _onDehydrated);
+    }, [])
+
+    useEffect(() => {
+        // const init = async () => {
+        //     // …do multiple sync or async tasks
+        // };
+        //
+        // init().finally(async () => {
+        //     await RNBootSplash.hide({ fade: true });
+        //     console.log("Bootsplash has been hidden successfully");
+        // });
+        setTimeout(() => {
+            RNBootSplash.hide({fade: true});
+        }, 1000)
     }, [])
 
     const _onDehydrated = useCallback(() => {
