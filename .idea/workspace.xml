@@ -2,30 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91a2782b-bd4e-47df-9b58-e59d2b15f70a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/android/app/src/main/res/drawable/bootsplash.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-hdpi/bootsplash_logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-mdpi/bootsplash_logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xhdpi/bootsplash_logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxhdpi/bootsplash_logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/app/src/main/res/mipmap-xxxhdpi/bootsplash_logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/android/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ios/BaseReactNative/BootSplash.storyboard" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ios/BaseReactNative/Images.xcassets/BootSplashLogo.imageset/Contents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ios/BaseReactNative/Images.xcassets/BootSplashLogo.imageset/bootsplash_logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ios/BaseReactNative/Images.xcassets/BootSplashLogo.imageset/bootsplash_logo@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ios/BaseReactNative/Images.xcassets/BootSplashLogo.imageset/bootsplash_logo@3x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/Splash.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/react/base/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/com/react/base/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/values/styles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/BaseReactNative.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/BaseReactNative.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/BaseReactNative.xcodeproj/xcshareddata/xcschemes/BaseReactNative.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/ios/BaseReactNative.xcodeproj/xcshareddata/xcschemes/BaseReactNative.xcscheme" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/BaseReactNative/AppDelegate.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/BaseReactNative/AppDelegate.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/BaseReactNative/Images.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/ios/BaseReactNative/Images.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/BaseReactNative/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/BaseReactNative/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/drawable/bootsplash.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/drawable/bootsplash.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +94,7 @@
       <workItem from="1631066436054" duration="26000" />
       <workItem from="1631112534025" duration="6315000" />
       <workItem from="1631157160736" duration="22000" />
-      <workItem from="1631160207399" duration="296000" />
+      <workItem from="1631160207399" duration="1255000" />
     </task>
     <servers />
   </component>
