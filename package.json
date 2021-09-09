@@ -6,10 +6,17 @@
     "email": "truonghung239810@gmail.com",
     "url": "https://github.com/TruongHung998"
   },
+  "version": "1.0.0",
+  "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git:github.com/TruongHung998/Base_ReactNative_Typescript"
+    "url": "https://github.com/TruongHung998/Base_ReactNative_Typescript"
   },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TruongHung998/Base_ReactNative_Typescript/issues"
+  },
+  "homepage": "https://github.com/TruongHung998/Base_ReactNative_Typescript#readme",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
