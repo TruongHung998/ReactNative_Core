@@ -1,5 +1,5 @@
 {
-  "name": "BaseReactNative",
+  "name": "react-native-base-typescript-hungtruong",
   "description": "React Native Starter Kit, using TypeScript with React Native Navigation",
   "author": {
     "name": "Hung Truong",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/TruongHung998/Base_ReactNative_Typescript"
   },
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/TruongHung998/Base_ReactNative_Typescript/issues"
   },
