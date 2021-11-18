@@ -1,0 +1,26 @@
+{
+  "presets": [
+    "module:metro-react-native-babel-preset"
+  ],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": [
+          "./"
+        ],
+        "alias": {
+          "@assets": "./src/components",
+          "@constants": "./src/constants",
+          "@context": "./src/context",
+          "@hook": "./src/hook",
+          "@network": "./src/network",
+          "@utilities": "./src/utilities",
+          "@shared": "./src/shared",
+          "@view": "./src/view",
+          "@navigators": "./src/navigators"
+        }
+      }
+    ]
+  ]
+}
