@@ -1,4 +1,3 @@
-import {NavigationActions} from 'react-navigation';
 import {StackActions, CommonActions, TabActions, DrawerActions} from '@react-navigation/native';
 import {NAVIGATION_MAIN_APP} from "../navigators/routeName";
 import {LayoutAnimation} from "react-native";
@@ -65,13 +64,5 @@ export function closeDrawer() {
     if (config.navigator && config.navigator.current) {
         LayoutAnimation.easeInEaseOut();
         config.navigator?.current?.dispatch(DrawerActions.closeDrawer());
-    }
-}
-
-export function pushWithFunc() {
-    if (config.navigator) {
-        // @ts-ignore
-        let action = NavigationActions.push({});
-        config.navigator.dispatch(action);
     }
 }
