@@ -1,8 +1,23 @@
+import Toast from "react-native-toast-message";
+
 const TIME_OUT = 8000
 import _const from '../../constants/common'
+import axios, {AxiosRequestConfig, Method} from 'axios';
+
+function showErrorMessage(ms: string) {
+    Toast.show({
+        type: 'error',
+        position: 'top',
+        topOffset: 60,
+        text2: ms,
+        visibilityTime: 3000,
+        /* @ts-ignore */
+        isVisible: true
+    });
+}
 
 //Set Timeout for call api
-function timeout(ms, promise) {
+function timeout(ms: number, promise: any) {
     return new Promise(function (resolve, reject) {
         setTimeout(function () {
         }, ms)
@@ -12,23 +27,40 @@ function timeout(ms, promise) {
 
 //Handle HTTP Request
 export default Object.freeze({
-    get: function (header, url, body, callback) {
-        timeout(TIME_OUT,
-            fetch(url, {
-                method: "GET",
-                headers: header,
-                body: null
-            }))
-            .then(response => response.json())
+    get: function (header: any, url: string, body: any, callback: any) {
+        const config: AxiosRequestConfig = {
+            url,
+            method: "GET",
+            timeout: TIME_OUT,
+            data: body
+        }
+        axios(config).then((response: any) => response.json())
             .then(responseJson => {
                 callback(_const.SUCCESS, responseJson);
             })
             .catch(error => {
+                if (error.message.includes('Network')) {
+                    showErrorMessage('Vui lòng kiểm tra đường truyền internet');
+                }
                 console.log(error, 'error')
                 callback(_const.FAILURE, error);
             });
+        // timeout(TIME_OUT,
+        //     fetch(url, {
+        //         method: "GET",
+        //         headers: header,
+        //         body: null
+        //     }))
+        //     .then((response: any) => response.json())
+        //     .then(responseJson => {
+        //         callback(_const.SUCCESS, responseJson);
+        //     })
+        //     .catch(error => {
+        //         console.log(error, 'error')
+        //         callback(_const.FAILURE, error);
+        //     });
     },
-    post: function (header, url, body, callback) {
+    post: function (header: any, url: string, body: any, callback: any) {
         let _header
         _header = {
             Accept: "application/json",
@@ -41,7 +73,7 @@ export default Object.freeze({
                 headers: _header,
                 body: JSON.stringify(body)
             }))
-            .then(response => response.json())
+            .then((response: any) => response.json())
             .then(responseJson => {
                 callback(_const.SUCCESS, responseJson);
             })
@@ -50,7 +82,7 @@ export default Object.freeze({
                 callback(_const.FAILURE, error);
             });
     },
-    put: function (header, url, body, callback) {
+    put: function (header: any, url: string, body: any, callback: any) {
         let _header
         _header = {
             Accept: "application/json",
@@ -63,7 +95,7 @@ export default Object.freeze({
                 headers: _header,
                 body: JSON.stringify(body)
             }))
-            .then(response => response.json())
+            .then((response: any) => response.json())
             .then(responseJson => {
                 callback(_const.SUCCESS, responseJson);
             })
@@ -72,7 +104,7 @@ export default Object.freeze({
                 callback(_const.FAILURE, error);
             });
     },
-    delete: function (header, url, body, callback) {
+    delete: function (header: any, url: string, body: any, callback: any) {
         let _header
         _header = {
             Accept: "application/json",
@@ -85,7 +117,7 @@ export default Object.freeze({
                 headers: _header,
                 body: JSON.stringify(body)
             }))
-            .then(response => response.json())
+            .then((response: any) => response.json())
             .then(responseJson => {
                 callback(_const.SUCCESS, responseJson);
             })
@@ -94,7 +126,7 @@ export default Object.freeze({
                 callback(_const.FAILURE, error);
             });
     },
-    upload: function (header, url, body, callback) {
+    upload: function (header: any, url: string, body: any, callback: any) {
         let _header
         _header = {
             Accept: "application/json",
@@ -107,7 +139,7 @@ export default Object.freeze({
                 headers: _header,
                 body: body
             }))
-            .then(response => response.json())
+            .then((response: any) => response.json())
             .then(responseJson => {
                 callback(_const.SUCCESS, responseJson);
             })

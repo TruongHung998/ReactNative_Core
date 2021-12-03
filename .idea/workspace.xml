@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91a2782b-bd4e-47df-9b58-e59d2b15f70a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/langs/en.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/langs/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/langs/vi.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/network/net/NetworkUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/network/net/NetworkUtils.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +98,8 @@
       <workItem from="1637229233445" duration="481000" />
       <workItem from="1637229723104" duration="122000" />
       <workItem from="1638440207385" duration="98000" />
-      <workItem from="1638503910463" duration="920000" />
+      <workItem from="1638503910463" duration="1148000" />
+      <workItem from="1638514798516" duration="1008000" />
     </task>
     <servers />
   </component>
