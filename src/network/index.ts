@@ -31,13 +31,15 @@ export const requestApi = (api: any, header: any = null, url: string, body: any)
             api(header, url, body, (status: number, response: any) => {
                 //console log if hard mode == true
                 if (Config.SHOW_LOG) {
-                    console.log('METHOD', api.name);
+                    console.log('%c <----------Begin API----------->', 'background: #222; color: #f0505d');
+                    console.log(`%c METHOD ${api.name}`, 'background: #222; color: #bada55');
                     console.log('API: ', url);
                     console.log('HEADER: ', header);
                     console.log('BODY: ', body);
                     console.log('BODY: ', JSON.stringify(body));
                     console.log('RESPONSE: ', response);
                     console.log('STATUS: ', status);
+                    console.log('                              ');
                 }
                 //handle status && response
                 switch (status) {
